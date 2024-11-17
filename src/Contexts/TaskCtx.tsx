@@ -44,10 +44,7 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
 
   const updateTaskAPi = async (task: taskAllInfo) => {
     try {
-      const response = await axiosInstance.put(
-        TASK_API + "/" + task.task_id,
-        task
-      );
+      await axiosInstance.put(TASK_API + "/" + task.task_id, task);
 
       getAllTaskList();
     } catch (error) {
@@ -80,6 +77,8 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
     if (isAuthenticated) {
       getAllTaskList();
     }
+
+    //eslint-disable-next-line
   }, [isAuthenticated]);
 
   const deleteTask = async (taskId: string) => {

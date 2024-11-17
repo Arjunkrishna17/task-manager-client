@@ -64,6 +64,7 @@ const AuthCtx = ({ children }: { children: React.ReactNode }) => {
     if (tokenFromLocal) {
       handleToken(tokenFromLocal);
     }
+    //eslint-disable-next-line
   }, []);
 
   return (
