@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import Input from "../Components/Form/Input";
 import Button from "../Components/Buttons/Button";
 import useAxios from "../Hooks/useAxios";
-import { SIGN_IN_API, SIGN_UP_API } from "../Apis/Auth";
+import { SIGN_IN_API } from "../Apis/Auth";
 import { useAuthCtx } from "../Contexts/AuthCtx";
+import { useNavigate } from "react-router-dom";
+import { SIGN_UP_ROUTE } from "../Routes/routes";
 
 interface loginCred {
   email: string;
@@ -19,6 +21,7 @@ const Login = () => {
 
   const { handleToken } = useAuthCtx();
   const { axiosInstance, handleError } = useAxios();
+  const navigate = useNavigate();
 
   const onChangeHandler = (type: string, value: string) => {
     setLoginCredentials((prev) => ({ ...prev, [type]: value }));
@@ -38,10 +41,14 @@ const Login = () => {
     loginHandler(loginCredentials);
   };
 
+  const signUpBtnHandler = () => {
+    navigate(SIGN_UP_ROUTE);
+  };
+
   return (
     <section className="flex flex-col grow justify-center items-center  w-full h-full ">
       <div className="flex flex-col border rounded-lg p-10 space-y-5 min-w-96  bg-white shadow-md">
-        <h1 className="text-xl font-bold text-blue-800">Sign in</h1>
+        <h1 className="text-xl font-bold text-blue-800">SIGN IN</h1>
 
         <Input
           label="Email"
@@ -59,6 +66,7 @@ const Login = () => {
           showError={false}
           onChange={(e) => onChangeHandler("password", e.target.value)}
         />
+
         <Button
           isLoading={false}
           onClick={signInBtnHandler}
@@ -70,10 +78,10 @@ const Login = () => {
           <p>Don't have an account?</p>
           <Button
             isLoading={false}
-            onClick={signInBtnHandler}
+            onClick={signUpBtnHandler}
             type="secondary"
             name="Sign up"
-            customClassNames="w-14"
+            customClassNames="w-12"
           />
         </div>
       </div>

@@ -34,8 +34,6 @@ const AuthCtx = ({ children }: { children: React.ReactNode }) => {
   const handleToken = (token: string) => {
     const decodedToken: tokeDetails = jwtDecode(token);
 
-    console.log({ decodedToken });
-
     localStorage.setItem(AUTH_TOKEN_KEY, token);
 
     setToken(token);
