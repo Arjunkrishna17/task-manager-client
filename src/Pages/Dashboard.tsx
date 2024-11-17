@@ -1,9 +1,12 @@
 import React from "react";
 import DraggableColumn from "../Components/DND/DragableColumn";
+import Button from "../Components/Buttons/Button";
+import CreateTask from "../Components/Task/CreateTask";
 
 const Dashboard = () => {
   return (
-    <div className="flex h-full my-5 mx-10">
+    <div className="flex flex-col h-full my-5 mx-14">
+      <CreateTask />
       <DraggableColumn />
     </div>
   );

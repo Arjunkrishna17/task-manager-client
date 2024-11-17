@@ -27,7 +27,7 @@ const Input = ({
         {label}
       </label>
       <input
-        className="border rounded-md h-9 active:outline-blue-500 focus:outline-blue-500 px-2"
+        className="border rounded-md h-9 active:outline-blue-500 focus:outline-blue-500 px-2 placeholder:text-sm"
         value={value}
         onChange={onChange}
         id={label}

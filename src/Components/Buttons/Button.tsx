@@ -31,7 +31,7 @@ const Button = ({
     <button
       onClick={onClick}
       disabled={disable || isLoading}
-      className={classNames + customClassNames + ` relative`}
+      className={classNames + " " + customClassNames + ` relative`}
     >
       {isLoading ? (
         <span className="material-symbols-outlined absolute  right-[8.5rem] top-2 animate-spin">

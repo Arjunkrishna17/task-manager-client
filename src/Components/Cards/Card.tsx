@@ -21,7 +21,7 @@ const Card: React.FC<CardProps> = ({ task, index }) => {
           style={{
             ...provided.draggableProps.style,
           }}
-          className="flex flex-col p-5 border rounded-lg h-44 bg-blue-100 justify-between "
+          className="flex flex-col p-5 border rounded-lg h-44 bg-blue-50 justify-between "
         >
           <p> {task.content}</p>
 
