@@ -4,21 +4,23 @@ import Button from "../Buttons/Button";
 import TaskForm from "./TaskForm";
 import useAxios from "../../Hooks/useAxios";
 import { taskDetails } from "../../Types/Task";
+import { useTaskCtx } from "../../Contexts/TaskCtx";
 
 const CreateTask = () => {
   const [showPopup, setShowPopup] = useState(false);
 
   const { axiosInstance, handleError } = useAxios();
+  const { getAllTaskList } = useTaskCtx();
 
   const createTaskApi = async (userDetails: taskDetails) => {
     try {
       const payload = { ...userDetails, status: "To Do" };
 
-      const { data } = await axiosInstance.post("/tasks", payload);
+      await axiosInstance.post("/tasks", payload);
+
+      getAllTaskList();
 
       setShowPopup(false);
-
-      console.log({ data });
     } catch (error) {
       handleError(error);
     }
@@ -35,6 +37,7 @@ const CreateTask = () => {
       />
 
       <TaskForm
+        type="Add Task"
         onSave={createTaskApi}
         showPopup={showPopup}
         closePopup={() => setShowPopup(false)}

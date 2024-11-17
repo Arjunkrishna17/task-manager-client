@@ -24,13 +24,9 @@ const Login = () => {
     setLoginCredentials((prev) => ({ ...prev, [type]: value }));
   };
 
-  console.log(handleToken);
-
   const loginHandler = async (loginCredentials: loginCred) => {
     try {
       const { data } = await axiosInstance.post(SIGN_IN_API, loginCredentials);
-
-      console.log({ data });
 
       handleToken(data.token);
     } catch (error) {
