@@ -6,7 +6,7 @@ const Navbar = () => {
   const { logout, isAuthenticated } = useAuthCtx();
 
   return (
-    <div className="flex w-full h-16 items-center px-16 justify-between bg-blue-800">
+    <div className="flex w-full h-16 items-center px-16 justify-between bg-blue-900">
       <div className="flex space-x-2 items-center">
         <img src="Images/Task.svg" alt="Task manager" width={40} height={40} />
 

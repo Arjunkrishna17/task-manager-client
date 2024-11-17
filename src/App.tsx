@@ -8,7 +8,7 @@ import AuthProvider from "./Providers/AuthProvider";
 
 const App = () => {
   return (
-    <main className="flex flex-col h-full bg-blue-50">
+    <main className="flex flex-col min-h-screen bg-gray-100">
       <AllContexts>
         <Navbar />
 

@@ -1,12 +1,8 @@
+// TrelloBoard.tsx
 import React, { useState } from "react";
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  DropResult,
-} from "@hello-pangea/dnd";
+import { DragDropContext, Droppable, DropResult } from "@hello-pangea/dnd";
+import Card from "../Cards/Card"; // Import the Card component
 
-// Define types for Task and Column
 interface Task {
   id: string;
   content: string;
@@ -24,7 +20,6 @@ interface Data {
   columnOrder: string[];
 }
 
-// Initial Data
 const initialData: Data = {
   tasks: {
     "task-1": { id: "task-1", content: "Take out the garbage" },
@@ -54,16 +49,14 @@ const initialData: Data = {
   columnOrder: ["column-1", "column-2", "column-3"],
 };
 
-const DraggableColumn: React.FC = () => {
+const DraggableColumns: React.FC = () => {
   const [data, setData] = useState<Data>(initialData);
 
   const onDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result;
 
-    // Exit if there's no destination (e.g., dropped outside any column)
     if (!destination) return;
 
-    // Exit if the item is dropped in the same place
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
@@ -73,7 +66,6 @@ const DraggableColumn: React.FC = () => {
     const startColumn = data.columns[source.droppableId];
     const finishColumn = data.columns[destination.droppableId];
 
-    // Reordering within the same column
     if (startColumn === finishColumn) {
       const newTaskIds = Array.from(startColumn.taskIds);
       newTaskIds.splice(source.index, 1);
@@ -94,7 +86,6 @@ const DraggableColumn: React.FC = () => {
       return;
     }
 
-    // Moving between columns
     const startTaskIds = Array.from(startColumn.taskIds);
     startTaskIds.splice(source.index, 1);
     const newStartColumn: Column = {
@@ -132,42 +123,14 @@ const DraggableColumn: React.FC = () => {
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  style={{
-                    margin: "8px",
-                    border: "1px solid lightgrey",
-                    borderRadius: "4px",
-                    width: "220px",
-                    display: "flex",
-                    flexDirection: "column",
-                    padding: "8px",
-                    backgroundColor: "#f4f5f7",
-                  }}
+                  style={{}}
+                  className="flex flex-col p-4 m-2 w-72 space-y-1 bg-white border rounded-lg  shadow-sm"
                 >
-                  <h3>{column.title}</h3>
+                  <h3 className="w-full bg-blue-800 text-white px-2 py-1 mb-3">
+                    {column.title}
+                  </h3>
                   {tasks.map((task, index) => (
-                    <Draggable
-                      key={task.id}
-                      draggableId={task.id}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={{
-                            padding: "8px",
-                            margin: "4px 0",
-                            border: "1px solid lightgrey",
-                            borderRadius: "4px",
-                            backgroundColor: "#ffffff",
-                            ...provided.draggableProps.style,
-                          }}
-                        >
-                          {task.content}
-                        </div>
-                      )}
-                    </Draggable>
+                    <Card key={task.id} task={task} index={index} />
                   ))}
                   {provided.placeholder}
                 </div>
@@ -180,4 +143,4 @@ const DraggableColumn: React.FC = () => {
   );
 };
 
-export default DraggableColumn;
+export default DraggableColumns;

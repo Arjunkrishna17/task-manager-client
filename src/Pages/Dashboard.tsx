@@ -3,7 +3,7 @@ import DraggableColumn from "../Components/DND/DragableColumn";
 
 const Dashboard = () => {
   return (
-    <div>
+    <div className="flex h-full my-5 mx-10">
       <DraggableColumn />
     </div>
   );
