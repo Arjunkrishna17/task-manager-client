@@ -91,7 +91,7 @@ const Login = () => {
         />
 
         <div className="flex space-x-1 text-xs w-full">
-          <p>Don't have an account?</p>
+          <p className="w-34 ">Don't have an account?</p>
           <Button
             isLoading={false}
             onClick={signUpBtnHandler}

@@ -132,7 +132,7 @@ const SignUp = () => {
         />
 
         <div className="flex space-x-1 text-xs w-full">
-          <p>Do you have an account?</p>
+          <p className="w-34">Do you have an account?</p>
           <Button
             isLoading={false}
             onClick={onBtnClick}
