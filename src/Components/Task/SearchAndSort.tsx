@@ -38,8 +38,11 @@ const SearchAndSort = () => {
 
   const sortHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setIsLoading(true);
-    setSortOrder(e.target.value);
-    getAllTaskList(search, e.target.value);
+
+    if (e.target.value !== sortOrder) {
+      setSortOrder(e.target.value);
+      getAllTaskList(search, e.target.value);
+    }
   };
 
   return (
