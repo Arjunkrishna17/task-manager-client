@@ -1,5 +1,4 @@
-// TrelloBoard.tsx
-import React, { useState } from "react";
+import React from "react";
 import { DragDropContext, Droppable, DropResult } from "@hello-pangea/dnd";
 import Card from "../Cards/Card"; // Import the Card component
 import { useTaskCtx } from "../../Contexts/TaskCtx";
@@ -7,8 +6,6 @@ import { column } from "../../Types/Task";
 
 const DraggableColumns: React.FC = () => {
   const { taskList, updateTaskList, updateStatus } = useTaskCtx();
-
-  console.log({ taskList });
 
   if (!taskList) return null;
 
@@ -46,8 +43,6 @@ const DraggableColumns: React.FC = () => {
       });
       return;
     }
-
-    console.log({ source, destination, draggableId });
 
     const startTaskIds = Array.from(startColumn.taskIds);
     startTaskIds.splice(source.index, 1);
