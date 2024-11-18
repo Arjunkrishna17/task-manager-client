@@ -1,12 +1,16 @@
 import React, { useState } from "react";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { useNavigate } from "react-router-dom";
 
 import Input from "../Components/Form/Input";
 import Button from "../Components/Buttons/Button";
 import useAxios from "../Hooks/useAxios";
 import { SIGN_IN_API } from "../Apis/Auth";
 import { useAuthCtx } from "../Contexts/AuthCtx";
-import { useNavigate } from "react-router-dom";
 import { SIGN_UP_ROUTE } from "../Routes/routes";
+import GoogleLogin from "../Components/Auth/GoogleLogin";
+import { ErrorFields } from "../Types/Form";
+import { validate } from "../utils/Validator";
 
 interface loginCred {
   email: string;
@@ -18,9 +22,15 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [showValidation, setShowValidation] = useState<ErrorFields>({
+    email: false,
+    password: false,
+  });
+
+  const [error, setError] = useState("");
 
   const { handleToken } = useAuthCtx();
-  const { axiosInstance, handleError } = useAxios();
+  const { axiosInstance } = useAxios();
   const navigate = useNavigate();
 
   const onChangeHandler = (type: string, value: string) => {
@@ -32,13 +42,19 @@ const Login = () => {
       const { data } = await axiosInstance.post(SIGN_IN_API, loginCredentials);
 
       handleToken(data.token);
-    } catch (error) {
-      handleError(error);
+    } catch (error: any) {
+      setError(error);
     }
   };
 
   const signInBtnHandler = () => {
-    loginHandler(loginCredentials);
+    const { isError, errFields } = validate(loginCredentials);
+
+    if (isError) {
+      setShowValidation(errFields);
+    } else {
+      loginHandler(loginCredentials);
+    }
   };
 
   const signUpBtnHandler = () => {
@@ -56,14 +72,16 @@ const Login = () => {
           onChange={(e) => onChangeHandler("email", e.target.value)}
           value={loginCredentials.email}
           placeholder="zus@example.com"
-          showError={false}
+          showError={showValidation?.email}
+          error="Please enter your email address"
         />
         <Input
           label="Password"
           type="password"
           value={loginCredentials.password}
           placeholder="***"
-          showError={false}
+          showError={showValidation?.password}
+          error="Please enter your password"
           onChange={(e) => onChangeHandler("password", e.target.value)}
         />
 
@@ -84,7 +102,14 @@ const Login = () => {
             customClassNames="w-12"
           />
         </div>
+        <GoogleOAuthProvider
+          clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}
+        >
+          <GoogleLogin />
+        </GoogleOAuthProvider>
       </div>
+
+      <p className="text-sm text-red-500">{error}</p>
     </section>
   );
 };

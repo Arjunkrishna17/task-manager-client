@@ -1,6 +1,7 @@
 import React from "react";
 import { DragDropContext, Droppable, DropResult } from "@hello-pangea/dnd";
-import Card from "../Cards/Card"; // Import the Card component
+
+import Card from "../Cards/Card";
 import { useTaskCtx } from "../../Contexts/TaskCtx";
 import { column } from "../../Types/Task";
 

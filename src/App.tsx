@@ -6,6 +6,7 @@ import Dashboard from "./Pages/Dashboard";
 import AllContexts from "./Contexts/AllContexts";
 import AuthProvider from "./Providers/AuthProvider";
 import SignUp from "./Pages/SignUp";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   return (
@@ -21,6 +22,8 @@ const App = () => {
             <Route element={<Dashboard />} path="/" />
           </Route>
         </Routes>
+
+        <ToastContainer />
       </AllContexts>
     </main>
   );

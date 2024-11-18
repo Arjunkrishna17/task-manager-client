@@ -10,10 +10,11 @@ const CreateTask = () => {
   const [showPopup, setShowPopup] = useState(false);
 
   const { axiosInstance, handleError } = useAxios();
-  const { getAllTaskList } = useTaskCtx();
+  const { getAllTaskList, setIsLoading } = useTaskCtx();
 
   const createTaskApi = async (userDetails: taskDetails) => {
     try {
+      setIsLoading(true);
       const payload = { ...userDetails, status: "To Do" };
 
       await axiosInstance.post("/tasks", payload);
@@ -23,6 +24,8 @@ const CreateTask = () => {
       setShowPopup(false);
     } catch (error) {
       handleError(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -33,15 +36,17 @@ const CreateTask = () => {
         name="Add task"
         isLoading={false}
         onClick={() => setShowPopup(true)}
-        customClassNames=" w-10"
+        customClassNames=" w-28"
       />
 
-      <TaskForm
-        type="Add Task"
-        onSave={createTaskApi}
-        showPopup={showPopup}
-        closePopup={() => setShowPopup(false)}
-      />
+      {showPopup && (
+        <TaskForm
+          type="Add Task"
+          onSave={createTaskApi}
+          showPopup={showPopup}
+          closePopup={() => setShowPopup(false)}
+        />
+      )}
     </>
   );
 };

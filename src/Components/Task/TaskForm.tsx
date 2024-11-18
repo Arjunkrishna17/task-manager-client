@@ -26,13 +26,22 @@ const TaskForm = ({
     title: title || "",
     description: description || "",
   });
+  const [showValidation, setShowValidation] = useState(false);
 
   const inputHandler = (type: string, value: string) => {
     setTaskDetails((prev) => ({ ...prev, [type]: value }));
+
+    if (type === "title") {
+      setShowValidation(false);
+    }
   };
 
   const onSaveHandler = () => {
-    onSave(taskDetails);
+    if (!taskDetails.title) {
+      setShowValidation(true);
+    } else {
+      onSave(taskDetails);
+    }
   };
 
   return (
@@ -42,7 +51,8 @@ const TaskForm = ({
           label="Title"
           placeholder=""
           onChange={(e) => inputHandler("title", e.target.value)}
-          showError={false}
+          showError={showValidation}
+          error="Please enter a title"
           value={taskDetails.title}
           type="text"
           autoFocus={true}
@@ -65,6 +75,7 @@ const TaskForm = ({
           name="Save"
           isLoading={false}
           onClick={onSaveHandler}
+          customClassNames="w-full"
         />
       </div>
     </Popup>

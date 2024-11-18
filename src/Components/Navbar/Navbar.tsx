@@ -12,7 +12,7 @@ const Navbar = () => {
         <img src="Images/Task.svg" alt="Task manager" width={40} height={40} />
 
         <h3 className="text-xl font-semibold text-blue-50 mt-1">
-          Task Manager{" "}
+          Task Manager
         </h3>
       </div>
 
@@ -23,7 +23,7 @@ const Navbar = () => {
             isLoading={false}
             onClick={logout}
             type="primary"
-            customClassNames="w-24"
+            customClassNames="w-28"
           />
         )}
       </div>

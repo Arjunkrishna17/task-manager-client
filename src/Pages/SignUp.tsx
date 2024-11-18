@@ -1,11 +1,14 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Input from "../Components/Form/Input";
 import Button from "../Components/Buttons/Button";
-import { useNavigate } from "react-router-dom";
 import { LOGIN_ROUTE } from "../Routes/routes";
 import useAxios from "../Hooks/useAxios";
 import { SIGN_UP_API } from "../Apis/Auth";
 import { useAuthCtx } from "../Contexts/AuthCtx";
+import { ErrorFields } from "../Types/Form";
+import { validate } from "../utils/Validator";
 
 const SignUp = () => {
   const [userDetails, setUserDetails] = useState({
@@ -15,15 +18,23 @@ const SignUp = () => {
     password: "",
     confirmPassword: "",
   });
+  const [showValidation, setShowValidation] = useState<ErrorFields>({});
+  const [error, setError] = useState("");
+
   const navigate = useNavigate();
-  const { axiosInstance, handleError } = useAxios();
+  const { axiosInstance } = useAxios();
   const { handleToken } = useAuthCtx();
+
+  const showConfimPassNotMatching =
+    userDetails.confirmPassword !== userDetails.password &&
+    userDetails.confirmPassword.length >= 1;
 
   const onChangeHandler = (type: string, value: string) => {
     setUserDetails((prev) => ({ ...prev, [type]: value }));
+    setShowValidation((prev) => ({ ...prev, [type]: false }));
   };
 
-  const onSignUp = async () => {
+  const signUpApi = async () => {
     try {
       const payload = {
         user_name: userDetails.firstName + " " + userDetails.lastName,
@@ -34,8 +45,20 @@ const SignUp = () => {
       const { data } = await axiosInstance.post(SIGN_UP_API, payload);
 
       handleToken(data.token);
-    } catch (error) {
-      handleError(error);
+    } catch (error: any) {
+      setError(error);
+    }
+  };
+
+  const onSignUp = async () => {
+    const { isError, errFields } = validate(userDetails);
+
+    if (isError) {
+      setShowValidation(errFields);
+    }
+
+    if (!showConfimPassNotMatching && !isError) {
+      signUpApi();
     }
   };
 
@@ -44,7 +67,7 @@ const SignUp = () => {
   };
 
   return (
-    <section className="flex flex-col grow justify-center items-center  w-full h-full ">
+    <section className="flex flex-col grow justify-center items-center  w-full h-full my-10">
       <div className="flex flex-col border rounded-lg p-10 space-y-5 min-w-96  bg-white shadow-md">
         <h1 className="text-xl font-bold text-blue-800">SIGN UP</h1>
 
@@ -54,7 +77,8 @@ const SignUp = () => {
           onChange={(e) => onChangeHandler("firstName", e.target.value)}
           value={userDetails.firstName}
           placeholder="zulu"
-          showError={false}
+          showError={showValidation?.firstName}
+          error="Please enter your first name"
         />
         <Input
           label="Last name"
@@ -62,7 +86,8 @@ const SignUp = () => {
           onChange={(e) => onChangeHandler("lastName", e.target.value)}
           value={userDetails.lastName}
           placeholder="peterson"
-          showError={false}
+          showError={showValidation?.lastName}
+          error="Please enter your last name"
         />
 
         <Input
@@ -71,24 +96,33 @@ const SignUp = () => {
           onChange={(e) => onChangeHandler("email", e.target.value)}
           value={userDetails.email}
           placeholder="zus@example.com"
-          showError={false}
+          showError={showValidation?.email}
+          error="Please enter your email"
         />
         <Input
           label="Password"
           type="password"
           value={userDetails.password}
           placeholder="***"
-          showError={false}
+          showError={showValidation?.password}
           onChange={(e) => onChangeHandler("password", e.target.value)}
+          error="Please enter your password"
         />
 
         <Input
           label="Confirm password"
-          type="password"
+          type="text"
           value={userDetails.confirmPassword}
           placeholder="***"
-          showError={false}
+          showError={
+            showValidation?.confirmPassword || showConfimPassNotMatching
+          }
           onChange={(e) => onChangeHandler("confirmPassword", e.target.value)}
+          error={
+            showConfimPassNotMatching
+              ? "Password not matching"
+              : "Please enter your confirm password"
+          }
         />
 
         <Button
@@ -105,9 +139,11 @@ const SignUp = () => {
             onClick={onBtnClick}
             type="secondary"
             name="Sign in"
-            customClassNames="w-10"
+            customClassNames="w-12"
           />
         </div>
+
+        <p className="text-sm text-red-500">{error}</p>
       </div>
     </section>
   );

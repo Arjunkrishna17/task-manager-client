@@ -1,9 +1,9 @@
-// Card.tsx
 import React, { useState } from "react";
 import { Draggable } from "@hello-pangea/dnd";
+import moment from "moment";
+
 import { taskAllInfo, taskDetails } from "../../Types/Task";
 import { useTaskCtx } from "../../Contexts/TaskCtx";
-import moment from "moment";
 import TaskForm from "../Task/TaskForm";
 import TaskDetails from "../Task/TaskDetails";
 
@@ -42,9 +42,11 @@ const Card: React.FC<CardProps> = ({ task, index }) => {
             }}
             className="flex flex-col p-5 border rounded-lg h-44 bg-blue-50 justify-between "
           >
-            <h5 className="font-bold "> {task.title}</h5>
+            <h5 className="font-bold truncate">{task.title}</h5>
 
-            <p className="text-sm">{task.description}</p>
+            <p className="text-sm line-clamp-3 h-16 overflow-hidden">
+              {task.description}
+            </p>
 
             <div className="flex justify-between items-center ">
               <p className="text-xs italic">

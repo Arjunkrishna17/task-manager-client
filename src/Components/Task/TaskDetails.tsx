@@ -1,4 +1,5 @@
 import React from "react";
+
 import { taskAllInfo } from "../../Types/Task";
 import moment from "moment";
 import Popup from "../Popups/Popup";
@@ -16,17 +17,17 @@ const TaskDetails = ({ task, onClose, show }: taskDetailsprops) => {
     <Popup heading="Task Details" onClose={onClose} show={show}>
       <div className="space-y-3">
         <div className="flex flex-col space-y-1">
-          <label className="text-sm font-semibold">Title</label>
-          <h3 className="">{task.title}</h3>
+          <label className="text-sm font-bold">Title</label>
+          <h3 className="text-wrap">{task.title}</h3>
         </div>
 
         <div className="flex flex-col space-y-1">
-          <label className="text-sm font-semibold">Description</label>
-          <p className="">{task?.description}</p>
+          <label className="text-sm font-bold ">Description</label>
+          <p className="text-wrap">{task?.description}</p>
         </div>
 
         <div className="flex flex-col space-y-1">
-          <label className="text-sm font-semibold">Created At</label>
+          <label className="text-sm font-bold">Created At</label>
           <p className="text-xs italic">
             {dateTime.format("DD/MM/YYYY hh:mm A")}
           </p>
