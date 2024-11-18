@@ -33,7 +33,7 @@ const CreateTask = () => {
         name="Add task"
         isLoading={false}
         onClick={() => setShowPopup(true)}
-        customClassNames="w-28"
+        customClassNames=" w-10"
       />
 
       <TaskForm

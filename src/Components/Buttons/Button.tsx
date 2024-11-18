@@ -21,7 +21,7 @@ const Button = ({
 
   if (type === "primary") {
     classNames =
-      "border rounded-lg w-full px-5 bg-blue-100 font-semibold text-blue-900 hover:bg-blue-200 disabled:opacity-30 min-h-10";
+      "border rounded-lg px-5 bg-blue-100 font-semibold text-blue-900 hover:bg-blue-200 disabled:opacity-30 min-h-10 w-fit";
   } else {
     classNames =
       "w-full font-semibold text-blue-900  font-semibold  hover:opacity-90 disabled:opacity-30 ";
