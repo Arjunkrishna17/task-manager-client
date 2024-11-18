@@ -26,22 +26,31 @@ const Login = () => {
     email: false,
     password: false,
   });
+  const [error, setError] = useState("");
 
   const { handleToken } = useAuthCtx();
-  const { axiosInstance, handleError } = useAxios();
+  const { axiosInstance, isLoading, setIsLoading } = useAxios();
   const navigate = useNavigate();
 
   const onChangeHandler = (type: string, value: string) => {
+    setShowValidation((prev) => ({ ...prev, [type]: false }));
     setLoginCredentials((prev) => ({ ...prev, [type]: value }));
   };
 
   const loginHandler = async (loginCredentials: loginCred) => {
     try {
+      setIsLoading(true);
       const { data } = await axiosInstance.post(SIGN_IN_API, loginCredentials);
 
       handleToken(data.token);
     } catch (error: any) {
-      handleError(error);
+      setError(
+        error.response.data.message ||
+          error.response.data.errors.toString() ||
+          "Something went wrong please try again later"
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -84,7 +93,7 @@ const Login = () => {
         />
 
         <Button
-          isLoading={false}
+          isLoading={isLoading}
           onClick={signInBtnHandler}
           type="primary"
           name="Sign in"
@@ -105,6 +114,8 @@ const Login = () => {
         >
           <GoogleLogin />
         </GoogleOAuthProvider>
+
+        <p className="text-red-500 text-sm">{error}</p>
       </div>
     </section>
   );

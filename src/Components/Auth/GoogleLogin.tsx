@@ -55,6 +55,7 @@ const GoogleLogin = () => {
         />
         <span>Login with Google</span>
       </button>
+      
     </>
   );
 };

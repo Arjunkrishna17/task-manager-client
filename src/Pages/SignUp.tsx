@@ -19,9 +19,10 @@ const SignUp = () => {
     confirmPassword: "",
   });
   const [showValidation, setShowValidation] = useState<ErrorFields>({});
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
-  const { axiosInstance, handleError } = useAxios();
+  const { axiosInstance, isLoading, setIsLoading } = useAxios();
   const { handleToken } = useAuthCtx();
 
   const showConfimPassNotMatching =
@@ -35,6 +36,9 @@ const SignUp = () => {
 
   const signUpApi = async () => {
     try {
+      setIsLoading(true);
+      setError("");
+
       const payload = {
         user_name: userDetails.firstName + " " + userDetails.lastName,
         email: userDetails.email,
@@ -45,7 +49,13 @@ const SignUp = () => {
 
       handleToken(data.token);
     } catch (error: any) {
-      handleError(error);
+      setError(
+        error.response.data.message ||
+          error.response.data.errors.toString() ||
+          "Something went wrong please try again later"
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -125,7 +135,7 @@ const SignUp = () => {
         />
 
         <Button
-          isLoading={false}
+          isLoading={isLoading}
           onClick={onSignUp}
           type="primary"
           name="Sign up"
@@ -141,6 +151,7 @@ const SignUp = () => {
             customClassNames="w-12"
           />
         </div>
+        <p className="text-red-500 text-sm">{error}</p>
       </div>
     </section>
   );
