@@ -74,7 +74,7 @@ const DraggableColumns: React.FC = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div style={{ display: "flex" }}>
+      <div className="flex flex-wrap gap-4 p-4">
         {taskList &&
           taskList.columnOrder.map((columnId) => {
             const column = taskList.columns[columnId];
@@ -88,10 +88,9 @@ const DraggableColumns: React.FC = () => {
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    style={{}}
-                    className="flex flex-col p-4 m-2 w-72 space-y-1 bg-white border rounded-lg  shadow-sm"
+                    className="flex flex-col p-4 w-full sm:w-72 md:w-1/3 lg:w-1/4 bg-white rounded-lg shadow-md"
                   >
-                    <h3 className="w-full bg-blue-800 text-white px-2 py-1 mb-3">
+                    <h3 className="w-full bg-blue-800 text-white px-2 py-1 mb-3 text-center">
                       {column.title}
                     </h3>
 

@@ -43,8 +43,9 @@ const SearchAndSort = () => {
   };
 
   return (
-    <div className="flex justify-between px-5 h-16 border bg-white shadow-sm ">
-      <div className="flex space-x-2 items-center">
+    <div className="flex flex-col sm:flex-row justify-between px-5 py-4 border bg-white shadow-sm space-y-4 sm:space-y-0 sm:space-x-4">
+      {/* Search Section */}
+      <div className="flex space-x-2 items-center ">
         <h5 className="font-semibold">Search</h5>
         <Input
           placeholder="Search"
@@ -56,12 +57,17 @@ const SearchAndSort = () => {
         />
       </div>
 
-      <div className="flex space-x-2 items-center">
-        <h5 className="font-semibold">SortBy</h5>
-
-        <select onChange={sortHandler} name="sort order">
-          <option value={"desc"}>Newest first</option>
-          <option value={"asc"}>Oldest first</option>
+      {/* Sort Section */}
+      <div className="flex   space-x-2 items-center ">
+        <h5 className="font-semibold">Sort By</h5>
+        <select
+          onChange={sortHandler}
+          name="sort order"
+          className="p-2 border rounded-md"
+          value={sortOrder}
+        >
+          <option value="desc">Newest first</option>
+          <option value="asc">Oldest first</option>
         </select>
       </div>
     </div>
