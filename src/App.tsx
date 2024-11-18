@@ -1,12 +1,15 @@
 import React from "react";
+import { ToastContainer } from "react-toastify";
+import { Route, Routes } from "react-router-dom";
+
+import "react-toastify/dist/ReactToastify.css";
+
 import Navbar from "./Components/Navbar/Navbar";
 import Login from "./Pages/Login";
-import { Route, Routes } from "react-router-dom";
 import Dashboard from "./Pages/Dashboard";
 import AllContexts from "./Contexts/AllContexts";
 import AuthProvider from "./Providers/AuthProvider";
 import SignUp from "./Pages/SignUp";
-import { ToastContainer } from "react-toastify";
 
 const App = () => {
   return (
@@ -23,7 +26,7 @@ const App = () => {
           </Route>
         </Routes>
 
-        <ToastContainer />
+        <ToastContainer position="bottom-right" />
       </AllContexts>
     </main>
   );

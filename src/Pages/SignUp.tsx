@@ -19,10 +19,9 @@ const SignUp = () => {
     confirmPassword: "",
   });
   const [showValidation, setShowValidation] = useState<ErrorFields>({});
-  const [error, setError] = useState("");
 
   const navigate = useNavigate();
-  const { axiosInstance } = useAxios();
+  const { axiosInstance, handleError } = useAxios();
   const { handleToken } = useAuthCtx();
 
   const showConfimPassNotMatching =
@@ -46,7 +45,7 @@ const SignUp = () => {
 
       handleToken(data.token);
     } catch (error: any) {
-      setError(error);
+      handleError(error);
     }
   };
 
@@ -142,8 +141,6 @@ const SignUp = () => {
             customClassNames="w-12"
           />
         </div>
-
-        <p className="text-sm text-red-500">{error}</p>
       </div>
     </section>
   );

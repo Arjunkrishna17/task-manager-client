@@ -36,10 +36,12 @@ const useAxios = () => {
 
     let errorMessage;
 
-    if (error.response?.data?.error) {
-      setErrorMsg(error.response.data.error);
+    if (error.response.data.message) {
+      errorMessage = error.response.data.message;
+    } else if (error.response?.data?.errors) {
+      setErrorMsg(error.response.data.errors);
 
-      errorMessage = error.response.data.error;
+      errorMessage = error.response.data.errors;
     } else {
       setErrorMsg("Something went wrong, please try again later");
       console.error(error.message);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 
 import useAxios from "../../Hooks/useAxios";
@@ -6,16 +6,13 @@ import { useAuthCtx } from "../../Contexts/AuthCtx";
 
 const GoogleLogin = () => {
   const { handleToken } = useAuthCtx();
-  const { axiosInstance } = useAxios();
-  const [error, setError] = useState("");
+  const { axiosInstance, handleError } = useAxios();
 
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse: any) => {
       const access_token = tokenResponse.access_token;
       if (access_token) {
         try {
-          setError("");
-
           const { data } = await axiosInstance.post(
             "/api/auth/google",
             { token: access_token },
@@ -26,18 +23,18 @@ const GoogleLogin = () => {
 
           handleToken(data.token);
         } catch (error) {
-          setError(
+          handleError(
             "Something went wrong please try again later, error: " + error
           );
           console.error("Error during login:", error);
         }
       } else {
-        setError("Something went wrong please try again later!");
+        handleError("Something went wrong please try again later!");
         console.error(" Token is not available.");
       }
     },
     onError: () => {
-      setError("Something went wrong please try again later!");
+      handleError("Something went wrong please try again later!");
       console.log("Login Failed");
     },
 
@@ -58,7 +55,6 @@ const GoogleLogin = () => {
         />
         <span>Login with Google</span>
       </button>
-      <p className="text-sm text-red-500">{error} </p>
     </>
   );
 };

@@ -27,10 +27,8 @@ const Login = () => {
     password: false,
   });
 
-  const [error, setError] = useState("");
-
   const { handleToken } = useAuthCtx();
-  const { axiosInstance } = useAxios();
+  const { axiosInstance, handleError } = useAxios();
   const navigate = useNavigate();
 
   const onChangeHandler = (type: string, value: string) => {
@@ -43,7 +41,7 @@ const Login = () => {
 
       handleToken(data.token);
     } catch (error: any) {
-      setError(error);
+      handleError(error);
     }
   };
 
@@ -108,8 +106,6 @@ const Login = () => {
           <GoogleLogin />
         </GoogleOAuthProvider>
       </div>
-
-      <p className="text-sm text-red-500">{error}</p>
     </section>
   );
 };
