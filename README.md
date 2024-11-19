@@ -41,14 +41,14 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ## Client Setup
 Clone the Client Repository:
-Create .env.local File:
-Add the following environment variable:
+1. Create .env.local File:
+2. Add the following environment variable:
 REACT_APP_GOOGLE_CLIENT_ID: Your Google OAuth client ID
-Update BASE_URL:
-Go to src/config/urls.js and set BASE_URL = "http://localhost:8080/" to point to the backend server.
-Install Dependencies:
+3. Update BASE_URL:
+4. Go to src/config/urls.js and set BASE_URL = "http://localhost:8080/" to point to the backend server.
+5. Install Dependencies:
 Run npm install in the client directory.
-Start the Client:
+6. Start the Client:
 Run npm start to start the client on http://localhost:3000.
 
 ## Learn More
