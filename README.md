@@ -39,6 +39,18 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+## Client Setup
+Clone the Client Repository:
+Create .env.local File:
+Add the following environment variable:
+REACT_APP_GOOGLE_CLIENT_ID: Your Google OAuth client ID
+Update BASE_URL:
+Go to src/config/urls.js and set BASE_URL = "http://localhost:8080/" to point to the backend server.
+Install Dependencies:
+Run npm install in the client directory.
+Start the Client:
+Run npm start to start the client on http://localhost:3000.
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
