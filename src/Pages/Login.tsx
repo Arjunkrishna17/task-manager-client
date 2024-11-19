@@ -106,7 +106,7 @@ const Login = () => {
             onClick={signUpBtnHandler}
             type="secondary"
             name="Sign up"
-            customClassNames="w-12"
+            customStyles={{ width: "fit-content" }}
           />
         </div>
         <GoogleOAuthProvider

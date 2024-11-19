@@ -7,11 +7,13 @@ interface buttonProps {
   type: "primary" | "secondary";
   customClassNames?: string;
   isLoading: boolean;
+  customStyles?: { [key: string]: string };
 }
 
 const Button = ({
   onClick,
   name,
+  customStyles = {},
   disable = false,
   type = "primary",
   customClassNames = "",
@@ -29,6 +31,7 @@ const Button = ({
 
   return (
     <button
+      style={{ ...customStyles }}
       onClick={onClick}
       disabled={disable || isLoading}
       className={classNames + " " + customClassNames + ` relative`}

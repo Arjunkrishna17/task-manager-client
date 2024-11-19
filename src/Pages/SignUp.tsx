@@ -148,7 +148,7 @@ const SignUp = () => {
             onClick={onBtnClick}
             type="secondary"
             name="Sign in"
-            customClassNames="w-12"
+            customStyles={{ width: "fit-content" }}
           />
         </div>
         <p className="text-red-500 text-sm">{error}</p>
