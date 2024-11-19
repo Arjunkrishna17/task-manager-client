@@ -6,11 +6,13 @@ import { useAuthCtx } from "../../Contexts/AuthCtx";
 
 const GoogleLogin = () => {
   const { handleToken } = useAuthCtx();
-  const { axiosInstance, handleError } = useAxios();
+  const { axiosInstance, handleError, isLoading, setIsLoading } = useAxios();
 
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse: any) => {
+      setIsLoading(true);
       const access_token = tokenResponse.access_token;
+
       if (access_token) {
         try {
           const { data } = await axiosInstance.post(
@@ -27,6 +29,8 @@ const GoogleLogin = () => {
             "Something went wrong please try again later, error: " + error
           );
           console.error("Error during login:", error);
+        } finally {
+          setIsLoading(false);
         }
       } else {
         handleError("Something went wrong please try again later!");
@@ -44,7 +48,8 @@ const GoogleLogin = () => {
   return (
     <>
       <button
-        className="flex items-center space-x-5 bg-black text-white justify-center text-sm border rounded-lg px-5 disabled:opacity-30 min-h-10"
+        disabled={isLoading}
+        className="flex  items-center space-x-5 bg-black text-white justify-center text-sm border rounded-lg px-5 disabled:opacity-30 min-h-10"
         onClick={() => login()}
       >
         <img
@@ -53,9 +58,14 @@ const GoogleLogin = () => {
           height={20}
           alt="Google login"
         />
-        <span>Login with Google</span>
+        {isLoading ? (
+          <span className="material-symbols-outlined absolute  right-[8.5rem] top-2 animate-spin">
+            progress_activity
+          </span>
+        ) : (
+          <span> Login with Google</span>
+        )}
       </button>
-      
     </>
   );
 };
