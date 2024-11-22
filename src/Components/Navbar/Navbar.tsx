@@ -33,7 +33,7 @@ const Navbar = () => {
             isLoading={false}
             onClick={logout}
             type="primary"
-            customClassNames="w-28"
+            customClassNames="w-32"
           />
         )}
       </div>
