@@ -27,6 +27,7 @@ const Login = () => {
     password: false,
   });
   const [error, setError] = useState("");
+  const [disable, setIsDisable] = useState(false);
 
   const { handleToken } = useAuthCtx();
   const { axiosInstance, isLoading, setIsLoading } = useAxios();
@@ -94,6 +95,7 @@ const Login = () => {
 
         <Button
           isLoading={isLoading}
+          disable={disable}
           onClick={signInBtnHandler}
           type="primary"
           name="Sign in"
@@ -103,6 +105,7 @@ const Login = () => {
           <p className="w-34 ">Don't have an account?</p>
           <Button
             isLoading={false}
+            disable={isLoading || disable}
             onClick={signUpBtnHandler}
             type="secondary"
             name="Sign up"
@@ -112,7 +115,7 @@ const Login = () => {
         <GoogleOAuthProvider
           clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}
         >
-          <GoogleLogin />
+          <GoogleLogin loader={(state: boolean) => setIsDisable(state)} />
         </GoogleOAuthProvider>
 
         <p className="text-red-500 text-sm">{error}</p>

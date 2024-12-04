@@ -3,14 +3,20 @@ import { useGoogleLogin } from "@react-oauth/google";
 
 import useAxios from "../../Hooks/useAxios";
 import { useAuthCtx } from "../../Contexts/AuthCtx";
+import SmallLoader from "../Loading/SmallLoader";
 
-const GoogleLogin = () => {
+interface googleLoginProps {
+  loader: (state: boolean) => void;
+}
+
+const GoogleLogin = ({ loader }: googleLoginProps) => {
   const { handleToken } = useAuthCtx();
   const { axiosInstance, handleError, isLoading, setIsLoading } = useAxios();
 
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse: any) => {
       setIsLoading(true);
+      loader(true);
       const access_token = tokenResponse.access_token;
 
       if (access_token) {
@@ -31,6 +37,7 @@ const GoogleLogin = () => {
           console.error("Error during login:", error);
         } finally {
           setIsLoading(false);
+          loader(false);
         }
       } else {
         handleError("Something went wrong please try again later!");
@@ -49,21 +56,21 @@ const GoogleLogin = () => {
     <>
       <button
         disabled={isLoading}
-        className="flex  items-center space-x-5 bg-black text-white justify-center text-sm border rounded-lg px-5 disabled:opacity-30 min-h-10"
+        className="flex  relative items-center space-x-5 bg-black text-white justify-center text-sm border rounded-lg px-5 disabled:opacity-30 min-h-10"
         onClick={() => login()}
       >
-        <img
-          src="images/Google.svg"
-          width={20}
-          height={20}
-          alt="Google login"
-        />
         {isLoading ? (
-          <span className="material-symbols-outlined absolute  right-[8.5rem] top-2 animate-spin">
-            progress_activity
-          </span>
+          <SmallLoader />
         ) : (
-          <span> Login with Google</span>
+          <>
+            <img
+              src="images/Google.svg"
+              width={20}
+              height={20}
+              alt="Google login"
+            />
+            <span> Login with Google</span>
+          </>
         )}
       </button>
     </>
