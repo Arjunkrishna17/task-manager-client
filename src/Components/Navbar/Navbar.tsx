@@ -1,10 +1,10 @@
 import React from "react";
 
-import Button from "../Buttons/Button";
 import { useAuthCtx } from "../../Contexts/AuthCtx";
+import ProfileBtn from "../Profile/ProfileBtn";
 
 const Navbar = () => {
-  const { logout, isAuthenticated } = useAuthCtx();
+  const { isAuthenticated } = useAuthCtx();
 
   return (
     <div className="flex w-full h-16 items-center px-5 sm:px-16 justify-between bg-blue-900">
@@ -27,15 +27,7 @@ const Navbar = () => {
       </a>
 
       <div className="flex space-x-5 items-center ">
-        {isAuthenticated && (
-          <Button
-            name="Sign out"
-            isLoading={false}
-            onClick={logout}
-            type="primary"
-            customClassNames="w-32"
-          />
-        )}
+        {isAuthenticated && <ProfileBtn />}
       </div>
     </div>
   );

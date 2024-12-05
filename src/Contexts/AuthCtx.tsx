@@ -39,7 +39,7 @@ const AuthCtx = ({ children }: { children: React.ReactNode }) => {
     setToken(token);
     setUserDetails({
       email: decodedToken.email,
-      userName: decodedToken.user_name,
+      userName: decodedToken.username,
     });
     setIsAuthenticated(true);
     navigate(DASHBOARD_ROUTE);
