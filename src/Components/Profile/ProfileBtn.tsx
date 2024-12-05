@@ -21,7 +21,7 @@ const ProfileBtn = () => {
       </div>
 
       {showMenu && (
-        <div className="flex flex-col space-y-3 w-80 h-80 bg-white border-2 absolute right-5 top-11 shadow-lg rounded-lg py-5">
+        <div className="flex flex-col space-y-3 w-80 h-80 bg-white border-2 absolute right-5 top-11 z-50 shadow-lg rounded-lg py-5">
           <div className="flex w-full space-x-2 items-center h-fit border-b pb-3 px-5">
             <div className="flex justify-center font-bold text-lg items-center border text-white  rounded-full h-10 w-10 bg-violet-500">
               {userDetails.userName.charAt(0)}
