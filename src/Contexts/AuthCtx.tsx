@@ -7,7 +7,12 @@ import { useNavigate } from "react-router-dom";
 import { DASHBOARD_ROUTE, LOGIN_ROUTE } from "../Routes/routes";
 
 type AuthContextType = {
-  userDetails: { email: string; userName: string };
+  userDetails: {
+    email: string;
+    userName: string;
+    avatar: string;
+    userId: string;
+  };
   isAuthenticated: boolean;
   token: string;
   logout: () => void;
@@ -15,7 +20,7 @@ type AuthContextType = {
 };
 
 const AuthCtxApi = createContext<AuthContextType>({
-  userDetails: { email: "", userName: "" },
+  userDetails: { email: "", userName: "", avatar: "", userId: "" },
   isAuthenticated: false,
   token: "",
   logout: () => {},
@@ -26,7 +31,12 @@ export const useAuthCtx = () => useContext(AuthCtxApi);
 
 const AuthCtx = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState("");
-  const [userDetails, setUserDetails] = useState({ email: "", userName: "" });
+  const [userDetails, setUserDetails] = useState({
+    email: "",
+    userName: "",
+    avatar: "",
+    userId: "",
+  });
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const navigate = useNavigate();
@@ -40,6 +50,8 @@ const AuthCtx = ({ children }: { children: React.ReactNode }) => {
     setUserDetails({
       email: decodedToken.email,
       userName: decodedToken.username,
+      avatar: decodedToken.avatar,
+      userId: decodedToken.userId,
     });
     setIsAuthenticated(true);
     navigate(DASHBOARD_ROUTE);
@@ -50,6 +62,8 @@ const AuthCtx = ({ children }: { children: React.ReactNode }) => {
     setUserDetails({
       email: "",
       userName: "",
+      avatar: "",
+      userId: "",
     });
     setIsAuthenticated(false);
 

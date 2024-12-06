@@ -10,6 +10,8 @@ import Dashboard from "./Pages/Dashboard";
 import AllContexts from "./Contexts/AllContexts";
 import AuthProvider from "./Providers/AuthProvider";
 import SignUp from "./Pages/SignUp";
+import UserProfile from "./Pages/UserProfile";
+import { PROFILE_PAGE_ROUTE } from "./Routes/routes";
 
 const App = () => {
   return (
@@ -23,6 +25,7 @@ const App = () => {
 
           <Route element={<AuthProvider />}>
             <Route element={<Dashboard />} path="/" />
+            <Route element={<UserProfile />} path={PROFILE_PAGE_ROUTE} />
           </Route>
         </Routes>
 
