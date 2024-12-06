@@ -71,7 +71,7 @@ const Login = () => {
 
   return (
     <section className="flex flex-col grow justify-center items-center  w-full h-full ">
-      <div className="flex flex-col border rounded-lg p-10 space-y-5 min-w-[350px]  bg-white shadow-md">
+      <div className="flex flex-col border rounded-lg p-10 space-y-5 min-w-[350px] md:min-w-[450px]  bg-white shadow-md">
         <h1 className="text-xl font-bold text-blue-800">SIGN IN</h1>
 
         <Input
