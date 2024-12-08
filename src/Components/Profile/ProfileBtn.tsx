@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { useAuthCtx } from "../../Contexts/AuthCtx";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { PROFILE_PAGE_ROUTE } from "../../Routes/routes";
 import { useOutsideClick } from "../../Contexts/useOutsideClick";
 import Avatar from "../Avatar/Avatar";
@@ -11,6 +11,7 @@ const ProfileBtn = () => {
 
   const { logout, userDetails } = useAuthCtx();
   const navigate = useNavigate();
+  const location = useLocation();
   const ref = useOutsideClick<HTMLDivElement>(() => setShowMenu(false));
 
   const onClickAvatarHandler = () => {
@@ -21,6 +22,8 @@ const ProfileBtn = () => {
     navigate(PROFILE_PAGE_ROUTE);
     setShowMenu(false);
   };
+
+  const isProfilePage = location.pathname === PROFILE_PAGE_ROUTE;
 
   return (
     <div ref={ref} className="relative">
@@ -47,7 +50,9 @@ const ProfileBtn = () => {
             <div
               role="button"
               onClick={onClickNavigationHandler}
-              className="flex items-center space-x-2 hover:bg-blue-100 px-5 py-1 cursor-pointer"
+              className={`flex items-center space-x-2 hover:bg-blue-100 px-5 py-1 cursor-pointer ${
+                isProfilePage ? " bg-blue-100" : " "
+              }`}
             >
               <img
                 width={30}

@@ -39,8 +39,9 @@ const Card: React.FC<CardProps> = ({ task, index }) => {
             {...provided.dragHandleProps}
             style={{
               ...provided.draggableProps.style,
+              cursor: "pointer",
             }}
-            className="flex flex-col p-5 border rounded-lg h-44 bg-blue-50 justify-between "
+            className="flex flex-col p-5 border rounded-lg h-44 bg-blue-50 justify-between cursor-pointer hover:border hover:border-blue-900 group"
           >
             <h5 className="font-bold truncate">{task.title}</h5>
 
@@ -52,22 +53,26 @@ const Card: React.FC<CardProps> = ({ task, index }) => {
               <p className="text-xs italic">
                 {"Created: " + dateTime.fromNow()}
               </p>
-              <div className="flex space-x-3  w-fit">
+
+              <div className="flex space-x-1  w-fit invisible group-hover:visible ">
                 <span
+                  title="Delete"
                   onClick={() => deleteTask(task.task_id)}
-                  className="material-symbols-outlined text-base"
+                  className="material-symbols-outlined text-base hover:bg-red-400 p-1 rounded-md hover:text-white"
                 >
                   delete
                 </span>
                 <span
+                  title="Edit"
                   onClick={() => setShowEditPopup(true)}
-                  className="material-symbols-outlined text-base"
+                  className="material-symbols-outlined text-base p-1 hover:bg-gray-400  rounded-md hover:text-white"
                 >
                   edit
                 </span>
                 <span
+                  title="View"
                   onClick={() => setShowTaskDetails(true)}
-                  className="material-symbols-outlined text-base"
+                  className="material-symbols-outlined text-base p-1 hover:bg-gray-400  rounded-md hover:text-white"
                 >
                   visibility
                 </span>
