@@ -29,6 +29,10 @@ const useAxios = () => {
     }
   );
 
+  const handleSuccess = (successMsg: string) => {
+    toast.success(successMsg);
+  };
+
   const handleError = (error: any, needToast = true) => {
     if (error.response?.status === 401) {
       logout();
@@ -56,6 +60,7 @@ const useAxios = () => {
   return {
     axiosInstance,
     handleError,
+    handleSuccess,
     errorMsg,
     setErrorMsg,
     isLoading,

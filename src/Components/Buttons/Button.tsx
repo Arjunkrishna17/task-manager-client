@@ -24,7 +24,7 @@ const Button = ({
 
   if (type === "primary") {
     classNames =
-      "flex border justify-center items-center rounded-lg px-5 bg-blue-100 font-semibold text-blue-900 hover:bg-blue-200 disabled:opacity-30 min-h-10";
+      "flex border justify-center items-center rounded-lg px-5 bg-blue-800 font-semibold text-white hover:bg-blue-700 disabled:opacity-30 min-h-10";
   } else {
     classNames =
       "flex w-full font-semibold text-blue-900 justify-center items-center font-semibold  hover:opacity-90 disabled:opacity-30 ";

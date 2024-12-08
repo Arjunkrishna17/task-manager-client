@@ -3,7 +3,7 @@ import { jwtDecode } from "jwt-decode";
 
 import { AUTH_TOKEN_KEY } from "../Config/LocalStorageKeys";
 import { tokeDetails } from "../Types/User";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { DASHBOARD_ROUTE, LOGIN_ROUTE } from "../Routes/routes";
 
 type AuthContextType = {
@@ -17,6 +17,8 @@ type AuthContextType = {
   token: string;
   logout: () => void;
   handleToken: (token: string) => void;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const AuthCtxApi = createContext<AuthContextType>({
@@ -25,6 +27,8 @@ const AuthCtxApi = createContext<AuthContextType>({
   token: "",
   logout: () => {},
   handleToken: (token: string) => {},
+  isLoading: false,
+  setIsLoading: () => {},
 });
 
 export const useAuthCtx = () => useContext(AuthCtxApi);
@@ -38,10 +42,14 @@ const AuthCtx = ({ children }: { children: React.ReactNode }) => {
     userId: "",
   });
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleToken = (token: string) => {
+    setIsLoading(true);
+
     const decodedToken: tokeDetails = jwtDecode(token);
 
     localStorage.setItem(AUTH_TOKEN_KEY, token);
@@ -54,7 +62,11 @@ const AuthCtx = ({ children }: { children: React.ReactNode }) => {
       userId: decodedToken.userId,
     });
     setIsAuthenticated(true);
-    navigate(DASHBOARD_ROUTE);
+    setIsLoading(false);
+
+    if (location.pathname === LOGIN_ROUTE) {
+      navigate(DASHBOARD_ROUTE);
+    }
   };
 
   const logout = () => {
@@ -83,7 +95,15 @@ const AuthCtx = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AuthCtxApi.Provider
-      value={{ userDetails, isAuthenticated, token, logout, handleToken }}
+      value={{
+        userDetails,
+        isAuthenticated,
+        token,
+        logout,
+        handleToken,
+        isLoading,
+        setIsLoading
+      }}
     >
       {children}
     </AuthCtxApi.Provider>

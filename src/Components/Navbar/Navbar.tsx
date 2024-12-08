@@ -2,16 +2,14 @@ import React from "react";
 
 import { useAuthCtx } from "../../Contexts/AuthCtx";
 import ProfileBtn from "../Profile/ProfileBtn";
+import { HOME_PAGE } from "../../Config/Urls";
 
 const Navbar = () => {
   const { isAuthenticated } = useAuthCtx();
 
   return (
     <div className="flex w-full h-16 items-center px-5 sm:px-16 justify-between bg-blue-900">
-      <a
-        className="cursor-pointer"
-        href="https://task-manager-krishna.netlify.app/"
-      >
+      <a className="cursor-pointer" href={HOME_PAGE}>
         <div className="flex space-x-2 items-center">
           <img
             src="Images/Task.svg"

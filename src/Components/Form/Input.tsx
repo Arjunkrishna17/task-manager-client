@@ -9,6 +9,7 @@ interface inputProps {
   error?: string;
   showError: boolean;
   autoFocus?: boolean;
+  disable?: boolean;
 }
 
 const Input = ({
@@ -20,6 +21,7 @@ const Input = ({
   error,
   showError,
   autoFocus = false,
+  disable = false,
 }: inputProps) => {
   return (
     <div className="flex flex-col space-y-1">
@@ -27,7 +29,8 @@ const Input = ({
         {label}
       </label>
       <input
-        className="border rounded-md h-9 active:outline-blue-500 focus:outline-blue-500 px-2 placeholder:text-sm"
+        disabled={disable}
+        className="border rounded-md h-9 active:outline-blue-500 focus:outline-blue-500 px-2 placeholder:text-sm disabled:text-gray-500"
         value={value}
         onChange={onChange}
         id={label}

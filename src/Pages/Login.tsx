@@ -29,7 +29,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const [disable, setIsDisable] = useState(false);
 
-  const { handleToken } = useAuthCtx();
+  const { handleToken, setIsLoading: setAuthLoading } = useAuthCtx();
   const { axiosInstance, isLoading, setIsLoading } = useAxios();
   const navigate = useNavigate();
 
@@ -52,6 +52,7 @@ const Login = () => {
       );
     } finally {
       setIsLoading(false);
+      setAuthLoading(false);
     }
   };
 

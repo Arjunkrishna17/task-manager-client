@@ -4,6 +4,7 @@ import { useAuthCtx } from "../../Contexts/AuthCtx";
 import { useNavigate } from "react-router-dom";
 import { PROFILE_PAGE_ROUTE } from "../../Routes/routes";
 import { useOutsideClick } from "../../Contexts/useOutsideClick";
+import Avatar from "../Avatar/Avatar";
 
 const ProfileBtn = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -16,33 +17,6 @@ const ProfileBtn = () => {
     setShowMenu((prev) => !prev);
   };
 
-  const getAvatar = () => {
-    let avatarHtml;
-
-    if (userDetails.avatar) {
-      avatarHtml = (
-        <img
-          src={userDetails.avatar}
-          alt="avatar"
-          onClick={onClickAvatarHandler}
-          className="flex justify-center font-bold text-lg cursor-pointer items-center outline outline-gray-200 rounded-full h-10 w-10"
-        />
-      );
-    } else {
-      avatarHtml = (
-        <div
-          role="button"
-          onClick={onClickAvatarHandler}
-          className="flex justify-center font-bold text-lg cursor-pointer items-center border text-white  rounded-full h-10 w-10 bg-violet-500"
-        >
-          {userDetails.userName.charAt(0)}
-        </div>
-      );
-    }
-
-    return avatarHtml;
-  };
-
   const onClickNavigationHandler = () => {
     navigate(PROFILE_PAGE_ROUTE);
     setShowMenu(false);
@@ -50,7 +24,11 @@ const ProfileBtn = () => {
 
   return (
     <div ref={ref} className="relative">
-      {getAvatar()}
+      <Avatar
+        onClick={onClickAvatarHandler}
+        userName={userDetails.userName}
+        avatar={userDetails.avatar}
+      />
 
       {showMenu && (
         <div className="flex flex-col space-y-3 w-80 h-80 bg-white border-2 absolute right-5 top-11 z-50 shadow-lg rounded-lg py-5">
