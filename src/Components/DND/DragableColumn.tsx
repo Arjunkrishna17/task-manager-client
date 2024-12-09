@@ -7,7 +7,13 @@ import { column } from "../../Types/Task";
 import Skelton from "../Loading/Skelton";
 
 const DraggableColumns: React.FC = () => {
-  const { taskList, updateTaskList, updateStatus, isLoading } = useTaskCtx();
+  const {
+    taskList,
+    updateTaskList,
+
+    isLoading,
+    updateTasksSortOrderAPi,
+  } = useTaskCtx();
 
   if (!taskList) return null;
 
@@ -20,16 +26,22 @@ const DraggableColumns: React.FC = () => {
       destination.droppableId === source.droppableId &&
       destination.index === source.index
     ) {
-      return;
+      return; // No change
     }
 
-    const startColumn = taskList?.columns[source.droppableId];
-    const finishColumn = taskList?.columns[destination.droppableId];
+    const startColumn = taskList.columns[source.droppableId];
+    const finishColumn = taskList.columns[destination.droppableId];
 
+    // Moving within the same column
     if (startColumn === finishColumn) {
       const newTaskIds = Array.from(startColumn.taskIds);
       newTaskIds.splice(source.index, 1);
       newTaskIds.splice(destination.index, 0, draggableId);
+
+      const newTasks = newTaskIds.map((taskId, index) => ({
+        ...taskList.tasks[taskId],
+        sortOrder: index, // Directly use 0-based index
+      }));
 
       const newColumn: column = {
         ...startColumn,
@@ -38,24 +50,46 @@ const DraggableColumns: React.FC = () => {
 
       updateTaskList({
         ...taskList,
+        tasks: {
+          ...taskList.tasks,
+          ...Object.fromEntries(newTasks.map((task) => [task.task_id, task])),
+        },
         columns: {
           ...taskList.columns,
           [newColumn.id]: newColumn,
         },
       });
+
+      updateTasksSortOrderAPi(newTasks);
+
       return;
     }
 
+    // Moving to a different column
     const startTaskIds = Array.from(startColumn.taskIds);
     startTaskIds.splice(source.index, 1);
+
+    const finishTaskIds = Array.from(finishColumn.taskIds);
+    finishTaskIds.splice(destination.index, 0, draggableId);
+
+    const newStartTasks = startTaskIds.map((taskId, index) => ({
+      ...taskList.tasks[taskId],
+      sortOrder: index, // Directly use 0-based index
+    }));
+
+    const newFinishTasks = finishTaskIds.map((taskId, index) => ({
+      ...taskList.tasks[taskId],
+      sortOrder: index, // Directly use 0-based index
+      status: taskList.tasks[draggableId]
+        ? finishColumn.title
+        : taskList.tasks[taskId].status,
+    }));
 
     const newStartColumn: column = {
       ...startColumn,
       taskIds: startTaskIds,
     };
 
-    const finishTaskIds = Array.from(finishColumn.taskIds);
-    finishTaskIds.splice(destination.index, 0, draggableId);
     const newFinishColumn: column = {
       ...finishColumn,
       taskIds: finishTaskIds,
@@ -63,6 +97,15 @@ const DraggableColumns: React.FC = () => {
 
     updateTaskList({
       ...taskList,
+      tasks: {
+        ...taskList.tasks,
+        ...Object.fromEntries(
+          newStartTasks.map((task) => [task.task_id, task])
+        ),
+        ...Object.fromEntries(
+          newFinishTasks.map((task) => [task.task_id, task])
+        ),
+      },
       columns: {
         ...taskList.columns,
         [newStartColumn.id]: newStartColumn,
@@ -70,7 +113,8 @@ const DraggableColumns: React.FC = () => {
       },
     });
 
-    updateStatus(draggableId, taskList.columns[destination.droppableId].title);
+    // Optionally update status in the backend
+    updateTasksSortOrderAPi([...newStartTasks, ...newFinishTasks]);
   };
 
   let body;

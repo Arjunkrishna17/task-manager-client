@@ -21,6 +21,7 @@ interface taskCtx {
   updateTaskAPi: (task: taskAllInfo) => void;
   isLoading: boolean;
   setIsLoading: (isLoading: boolean) => void;
+  updateTasksSortOrderAPi: (tasks: taskAllInfo[]) => void;
 }
 
 const TaskCtxApi = createContext<taskCtx>({
@@ -32,6 +33,7 @@ const TaskCtxApi = createContext<taskCtx>({
   updateTaskAPi: (task: taskAllInfo) => {},
   isLoading: false,
   setIsLoading: (isLoadingState: boolean) => {},
+  updateTasksSortOrderAPi: (tasks: taskAllInfo[]) => {},
 });
 
 export const useTaskCtx = () => useContext(TaskCtxApi);
@@ -47,7 +49,17 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
     setTaskList(taskList);
   };
 
-  const updateTaskAPi = async (task: taskAllInfo) => {
+  const updateTasksSortOrderAPi = async (tasks: taskAllInfo[]) => {
+    try {
+      await axiosInstance.put(TASK_API, tasks);
+    } catch (error) {
+      handleError(error);
+    } finally {
+      getAllTaskList();
+    }
+  };
+
+  const updateTaskStatus = async (task: taskAllInfo) => {
     try {
       await axiosInstance.put(TASK_API + "/" + task.task_id, task);
     } catch (error) {
@@ -62,11 +74,11 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
       const selectedTask = taskList.tasks[taskId];
       selectedTask.status = status;
 
-      updateTaskAPi(selectedTask);
+      updateTasksSortOrderAPi(Object.values(taskList.tasks) as taskAllInfo[]);
     }
   };
 
-  const constructAllTaskUrl = (sortBy: string, search?: string) => {
+  const constructAllTaskUrl = (sortBy: string = "none", search?: string) => {
     let url = TASK_API + "?sortOrder=" + sortBy;
 
     if (search) {
@@ -76,10 +88,7 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
     return url;
   };
 
-  const getAllTaskList = async (
-    searchTerm?: string,
-    sortOrder: string = "desc"
-  ) => {
+  const getAllTaskList = async (searchTerm?: string, sortOrder?: string) => {
     try {
       const { data } = await axiosInstance.get(
         constructAllTaskUrl(sortOrder, searchTerm)
@@ -121,7 +130,8 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
         updateTaskList,
         updateStatus,
         deleteTask,
-        updateTaskAPi,
+        updateTaskAPi: updateTaskStatus,
+        updateTasksSortOrderAPi,
         isLoading,
         setIsLoading,
       }}

@@ -69,6 +69,7 @@ const SearchAndSort = () => {
           className="p-2 border rounded-md"
           value={sortOrder}
         >
+          <option value="none">None</option>
           <option value="desc">Newest first</option>
           <option value="asc">Oldest first</option>
         </select>
