@@ -41,11 +41,11 @@ const Card: React.FC<CardProps> = ({ task, index }) => {
               ...provided.draggableProps.style,
               cursor: "pointer",
             }}
-            className="flex flex-col p-5 border rounded-lg h-44 bg-blue-50 justify-between cursor-pointer hover:border hover:border-blue-900 group"
+            className="flex flex-col p-5 border rounded-lg h-32 bg-blue-50 justify-between cursor-pointer hover:border hover:border-blue-900 group"
           >
             <h5 className="font-bold truncate">{task.title}</h5>
 
-            <p className="text-sm line-clamp-3 h-16 overflow-hidden">
+            <p className="text-sm line-clamp-3 h-10 overflow-hidden">
               {task.description}
             </p>
 
