@@ -89,6 +89,8 @@ const AuthCtx = ({ children }: { children: React.ReactNode }) => {
 
     if (tokenFromLocal) {
       handleToken(tokenFromLocal);
+    } else {
+      setIsLoading(false);
     }
     //eslint-disable-next-line
   }, []);
@@ -102,7 +104,7 @@ const AuthCtx = ({ children }: { children: React.ReactNode }) => {
         logout,
         handleToken,
         isLoading,
-        setIsLoading
+        setIsLoading,
       }}
     >
       {children}
