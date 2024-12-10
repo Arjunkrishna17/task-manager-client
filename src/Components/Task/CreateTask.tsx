@@ -15,7 +15,7 @@ const CreateTask = () => {
   const createTaskApi = async (userDetails: taskDetails) => {
     try {
       setIsLoading(true);
-      const payload = { ...userDetails, status: "To Do" };
+      const payload = { ...userDetails, status: "To Do", sortOrder: 0 };
 
       await axiosInstance.post("/tasks", payload);
 
