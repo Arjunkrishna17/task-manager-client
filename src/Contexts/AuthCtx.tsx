@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { AUTH_TOKEN_KEY } from "../Config/LocalStorageKeys";
 import { tokeDetails } from "../Types/User";
 import { useLocation, useNavigate } from "react-router-dom";
-import { DASHBOARD_ROUTE, LOGIN_ROUTE } from "../Routes/routes";
+import { TASK_BOARD_ROUTE, LOGIN_ROUTE, SIGN_UP_ROUTE } from "../Routes/routes";
 
 type AuthContextType = {
   userDetails: {
@@ -64,8 +64,11 @@ const AuthCtx = ({ children }: { children: React.ReactNode }) => {
     setIsAuthenticated(true);
     setIsLoading(false);
 
-    if (location.pathname === LOGIN_ROUTE) {
-      navigate(DASHBOARD_ROUTE);
+    if (
+      location.pathname === LOGIN_ROUTE ||
+      location.pathname === SIGN_UP_ROUTE
+    ) {
+      navigate(TASK_BOARD_ROUTE);
     }
   };
 

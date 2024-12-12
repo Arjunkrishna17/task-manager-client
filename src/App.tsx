@@ -11,7 +11,12 @@ import AllContexts from "./Contexts/AllContexts";
 import AuthProvider from "./Providers/AuthProvider";
 import SignUp from "./Pages/SignUp";
 import UserProfile from "./Pages/UserProfile";
-import { PROFILE_PAGE_ROUTE } from "./Routes/routes";
+import {
+  COLLECTIONS_ROUTE,
+  PROFILE_PAGE_ROUTE,
+  TASK_BOARD_ROUTE,
+} from "./Routes/routes";
+import Collections from "./Pages/Collections";
 
 const App = () => {
   return (
@@ -24,7 +29,8 @@ const App = () => {
           <Route element={<SignUp />} path="/signup" />
 
           <Route element={<AuthProvider />}>
-            <Route element={<Dashboard />} path="/" />
+            <Route element={<Collections />} path={COLLECTIONS_ROUTE} />
+            <Route element={<Dashboard />} path={TASK_BOARD_ROUTE + "/:id"} />
             <Route element={<UserProfile />} path={PROFILE_PAGE_ROUTE} />
           </Route>
         </Routes>
