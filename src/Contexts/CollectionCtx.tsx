@@ -1,11 +1,15 @@
 import React, { createContext, useContext, useState } from "react";
 
-import { collectionDetails } from "../Types/Collection";
+import {
+  collectionDetails,
+  createCollectionPayload,
+} from "../Types/Collection";
 import useAxios from "../Hooks/useAxios";
 import { GET_COLLECTION_API } from "../Apis/Collections";
 
 interface collectionCtxApiTypes {
   getCollections: () => void;
+
   collectionList: collectionDetails[] | undefined;
   isLoading: boolean;
 }
@@ -29,13 +33,12 @@ const CollectionCtx = ({ children }: { children: React.ReactNode }) => {
     try {
       setIsLoading(true);
 
-      const collections: collectionDetails[] = await axiosInstance.get(
-        GET_COLLECTION_API
-      );
+      const { data } = await axiosInstance.get(GET_COLLECTION_API);
 
-      setCollectionList(collections);
+      setCollectionList(data);
     } catch (error) {
       handleError(error);
+    } finally {
       setIsLoading(false);
     }
   };

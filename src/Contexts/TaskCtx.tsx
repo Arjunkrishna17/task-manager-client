@@ -104,14 +104,6 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      getAllTaskList();
-    }
-
-    //eslint-disable-next-line
-  }, [isAuthenticated]);
-
   const deleteTask = async (taskId: string) => {
     try {
       await axiosInstance.delete(TASK_API + "/" + taskId);

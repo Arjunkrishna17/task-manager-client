@@ -3,9 +3,46 @@ import React, { useState } from "react";
 import Button from "../Buttons/Button";
 import Popup from "../Popups/Popup";
 import Input from "../Form/Input";
+import useAxios from "../../Hooks/useAxios";
+import { GET_COLLECTION_API } from "../../Apis/Collections";
+import { useCollectionCtx } from "../../Contexts/CollectionCtx";
 
-const CreateCollection = () => {
+interface CreateFormProps {
+  title?: string;
+  description?: string;
+}
+
+const CreateCollection = ({ title, description }: CreateFormProps) => {
+  const [formInputs, setFormInputs] = useState({
+    title: title || "",
+    description: description || "",
+  });
   const [showCreatePopup, setShowCreatePopup] = useState(false);
+
+  const { axiosInstance, isLoading, setIsLoading, handleError } = useAxios();
+  const { getCollections } = useCollectionCtx();
+
+  const inputChangeHandler = (type: string, value: string) => {
+    setFormInputs((prevValues) => ({ ...prevValues, [type]: value }));
+  };
+
+  const createCollection = async () => {
+    try {
+      setIsLoading(true);
+
+      await axiosInstance.post(GET_COLLECTION_API, {
+        name: formInputs.title,
+        description: formInputs.description,
+      });
+
+      getCollections();
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setIsLoading(false);
+      setShowCreatePopup(false);
+    }
+  };
 
   return (
     <>
@@ -25,8 +62,8 @@ const CreateCollection = () => {
         <div className="space-y-5">
           <Input
             label="Name"
-            onChange={() => {}}
-            value=""
+            onChange={(e) => inputChangeHandler("title", e.target.value)}
+            value={formInputs.title}
             placeholder=""
             showError={false}
             type="text"
@@ -38,15 +75,18 @@ const CreateCollection = () => {
             </label>
 
             <textarea
+              onChange={(e) =>
+                inputChangeHandler("description", e.target.value)
+              }
               id="Description"
-              value=""
+              value={formInputs.description}
               className="border h-28 resize-none rounded-md py-1 text-sm active:outline-blue-500 focus:outline-blue-500 px-2 placeholder:text-sm"
             />
           </div>
 
           <Button
             name="Create"
-            onClick={() => {}}
+            onClick={createCollection}
             type="primary"
             isLoading={false}
             customClassNames=" w-full"

@@ -11,14 +11,19 @@ import { useCollectionCtx } from "../Contexts/CollectionCtx";
 import { collectionDetails } from "../Types/Collection";
 import CreateCollection from "../Components/Collection/CreateCollection";
 
+interface createCollectionPayload {
+  title: string;
+  description: string;
+}
+
 const Collections = () => {
   const [showCreatePopup, setShowCreatePopup] = useState(false);
 
   const navigate = useNavigate();
   const { getCollections, collectionList, isLoading } = useCollectionCtx();
 
-  const collectionOnclick = () => {
-    navigate(TASK_BOARD_ROUTE + "/234");
+  const collectionOnclick = (collectionId: string) => {
+    navigate(TASK_BOARD_ROUTE + "/" + collectionId);
   };
 
   useEffect(() => {
@@ -41,7 +46,9 @@ const Collections = () => {
           collectionList.map((collection: collectionDetails) => (
             <CollectionCard
               onClick={collectionOnclick}
+              collectionId={collection.collection_id}
               projectName={collection.name}
+              description={collection.description}
             />
           ))}
       </div>
