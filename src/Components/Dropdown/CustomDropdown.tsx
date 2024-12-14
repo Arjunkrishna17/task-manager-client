@@ -60,7 +60,7 @@ const CustomDropdown = ({
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute -left-20 sm:left-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+        <div className="absolute -left-20 sm:left-0 mt-2 w-64 max-h-96 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg z-50">
           {/* Dropdown Items */}
           <div className="p-2 space-y-2">
             {options?.map((item) => (
