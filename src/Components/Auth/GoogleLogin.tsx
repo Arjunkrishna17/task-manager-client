@@ -52,12 +52,16 @@ const GoogleLogin = ({ loader }: googleLoginProps) => {
     scope: "openid profile email",
   });
 
+  const handleOnClick = () => {
+    login();
+  };
+
   return (
     <>
       <button
         disabled={isLoading}
         className="flex  relative items-center space-x-5 bg-black text-white justify-center text-sm border rounded-lg px-5 disabled:opacity-30 min-h-10"
-        onClick={() => login()}
+        onClick={handleOnClick}
       >
         {isLoading ? (
           <SmallLoader />

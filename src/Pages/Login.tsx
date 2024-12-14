@@ -108,7 +108,7 @@ const Login = () => {
             isLoading={false}
             disable={isLoading || disable}
             onClick={signUpBtnHandler}
-            type="secondary"
+            type="tertiary"
             name="Sign up"
             customStyles={{ width: "fit-content" }}
           />

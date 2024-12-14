@@ -5,7 +5,7 @@ interface buttonProps {
   onClick: () => void;
   name: string;
   disable?: boolean;
-  type: "primary" | "secondary" | "danger";
+  type: "primary" | "secondary" | "tertiary" | "danger";
   customClassNames?: string;
   isLoading: boolean;
   customStyles?: { [key: string]: string };
@@ -31,7 +31,11 @@ const Button = ({
   } else if (type === "danger") {
     classNames =
       "flex border justify-center items-center rounded-lg px-5 bg-red-500 font-semibold text-white hover:bg-red-600 disabled:opacity-30 min-h-10";
+  } else {
+    classNames =
+      "w-full font-semibold text-blue-900  font-semibold  hover:opacity-90 disabled:opacity-30 ";
   }
+
   return (
     <button
       style={{ ...customStyles }}

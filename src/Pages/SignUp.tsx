@@ -146,7 +146,7 @@ const SignUp = () => {
           <Button
             isLoading={false}
             onClick={onBtnClick}
-            type="secondary"
+            type="tertiary"
             name="Sign in"
             customStyles={{ width: "fit-content" }}
           />
