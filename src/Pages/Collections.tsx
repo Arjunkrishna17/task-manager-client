@@ -45,6 +45,7 @@ const Collections = () => {
           collectionList.length &&
           collectionList.map((collection: collectionDetails) => (
             <CollectionCard
+              key={collection.collection_id}
               onClick={collectionOnclick}
               collectionId={collection.collection_id}
               projectName={collection.name}

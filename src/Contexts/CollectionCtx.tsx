@@ -9,13 +9,14 @@ import { GET_COLLECTION_API } from "../Apis/Collections";
 
 interface collectionCtxApiTypes {
   getCollections: () => void;
-
+  createCollection: (payload: createCollectionPayload) => void;
   collectionList: collectionDetails[] | undefined;
   isLoading: boolean;
 }
 
 const CollectionCtxApi = createContext<collectionCtxApiTypes>({
   getCollections: () => {},
+  createCollection: (payload) => {},
   collectionList: undefined,
   isLoading: true,
 });
@@ -43,9 +44,26 @@ const CollectionCtx = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const createCollection = async (payload: createCollectionPayload) => {
+    try {
+      setIsLoading(true);
+
+      await axiosInstance.post(GET_COLLECTION_API, {
+        name: payload.title,
+        description: payload.description,
+      });
+
+      getCollections();
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <CollectionCtxApi.Provider
-      value={{ collectionList, isLoading, getCollections }}
+      value={{ collectionList, isLoading, getCollections, createCollection }}
     >
       {children}
     </CollectionCtxApi.Provider>

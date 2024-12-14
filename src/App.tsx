@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Navbar from "./Components/Navbar/Navbar";
 import Login from "./Pages/Login";
-import Dashboard from "./Pages/Dashboard";
+import Tasks from "./Pages/Tasks";
 import AllContexts from "./Contexts/AllContexts";
 import AuthProvider from "./Providers/AuthProvider";
 import SignUp from "./Pages/SignUp";
@@ -30,7 +30,7 @@ const App = () => {
 
           <Route element={<AuthProvider />}>
             <Route element={<Collections />} path={COLLECTIONS_ROUTE} />
-            <Route element={<Dashboard />} path={TASK_BOARD_ROUTE + "/:id"} />
+            <Route element={<Tasks />} path={TASK_BOARD_ROUTE + "/:id"} />
             <Route element={<UserProfile />} path={PROFILE_PAGE_ROUTE} />
           </Route>
         </Routes>

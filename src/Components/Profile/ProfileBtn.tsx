@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useAuthCtx } from "../../Contexts/AuthCtx";
-import { useLocation, useNavigate } from "react-router-dom";
-import { PROFILE_PAGE_ROUTE } from "../../Routes/routes";
+import { COLLECTIONS_ROUTE, PROFILE_PAGE_ROUTE } from "../../Routes/routes";
 import { useOutsideClick } from "../../Contexts/useOutsideClick";
 import Avatar from "../Avatar/Avatar";
 
@@ -18,8 +18,8 @@ const ProfileBtn = () => {
     setShowMenu((prev) => !prev);
   };
 
-  const onClickNavigationHandler = () => {
-    navigate(PROFILE_PAGE_ROUTE);
+  const onClickNavigationHandler = (route: string) => {
+    navigate(route);
     setShowMenu(false);
   };
 
@@ -47,34 +47,38 @@ const ProfileBtn = () => {
           </div>
 
           <div className="flex flex-col justify-between h-full">
-            <div
-              role="button"
-              onClick={onClickNavigationHandler}
-              className={`flex items-center space-x-2 hover:bg-blue-100 px-5 py-1 cursor-pointer ${
-                isProfilePage ? " bg-blue-100" : " "
-              }`}
-            >
-              <img
-                width={30}
-                height={30}
-                className="opacity-70"
-                src="images/Account.svg"
-                alt="Log out"
-              />
-              <span>Manage Account</span>
+            <div>
+              <div
+                role="button"
+                onClick={() => onClickNavigationHandler(PROFILE_PAGE_ROUTE)}
+                className={`flex items-center space-x-2 hover:bg-blue-100 px-5 py-2 cursor-pointer ${
+                  isProfilePage ? " bg-blue-100" : " "
+                }`}
+              >
+                <span className="material-symbols-outlined">
+                  manage_accounts
+                </span>
+                <span>Manage Account</span>
+              </div>
+
+              <div
+                role="button"
+                onClick={() => onClickNavigationHandler(COLLECTIONS_ROUTE)}
+                className={`flex items-center space-x-2 hover:bg-blue-100 px-5 py-2.5 cursor-pointer ${
+                  location.pathname === "/" ? " bg-blue-100" : " "
+                }`}
+              >
+                <span className="material-symbols-outlined">category</span>
+                <span>Collections</span>
+              </div>
             </div>
 
             <div
               role="button"
               onClick={logout}
-              className="flex items-center space-x-2 hover:bg-blue-100 px-5 py-1.5 border-t cursor-pointer "
+              className="flex items-center space-x-2 hover:bg-blue-100 px-5 py-2.5 border-t cursor-pointer "
             >
-              <img
-                width={25}
-                height={25}
-                src="images/Logout.svg"
-                alt="Log out"
-              />
+              <span className="material-symbols-outlined">logout</span>
               <span>Logout</span>
             </div>
           </div>
