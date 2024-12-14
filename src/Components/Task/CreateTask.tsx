@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 
 import Button from "../Buttons/Button";
 import TaskForm from "./TaskForm";
@@ -11,15 +12,21 @@ const CreateTask = () => {
 
   const { axiosInstance, handleError } = useAxios();
   const { getAllTaskList, setIsLoading } = useTaskCtx();
+  const { id: collectionId } = useParams();
 
   const createTaskApi = async (userDetails: taskDetails) => {
     try {
       setIsLoading(true);
-      const payload = { ...userDetails, status: "To Do", sortOrder: 0 };
+      const payload = {
+        ...userDetails,
+        status: "To Do",
+        sortOrder: 0,
+        collection_id: collectionId,
+      };
 
       await axiosInstance.post("/tasks", payload);
 
-      getAllTaskList();
+      getAllTaskList(collectionId as string);
 
       setShowPopup(false);
     } catch (error) {

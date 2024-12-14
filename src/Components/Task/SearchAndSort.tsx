@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 
 import Input from "../Form/Input";
 import { useTaskCtx } from "../../Contexts/TaskCtx";
@@ -25,9 +26,10 @@ const SearchAndSort = () => {
   const [sortOrder, setSortOrder] = useState("description");
 
   const { getAllTaskList, setIsLoading } = useTaskCtx();
+  const { id: collectionId } = useParams();
 
   const debounceHandler = debounce((searchTerm: string, order: string) => {
-    getAllTaskList(searchTerm, order);
+    getAllTaskList(collectionId as string, searchTerm, order);
   }, 500);
 
   const onChangeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +43,7 @@ const SearchAndSort = () => {
 
     if (e.target.value !== sortOrder) {
       setSortOrder(e.target.value);
-      getAllTaskList(search, e.target.value);
+      getAllTaskList(collectionId as string, search, e.target.value);
     }
   };
 

@@ -5,6 +5,7 @@ export interface taskDetails {
 
 export interface taskAllInfo {
   task_id: string; // Custom task identifier (optional)
+  collection_id: string;
   title: string;
   description?: string;
   assigned_to?: {

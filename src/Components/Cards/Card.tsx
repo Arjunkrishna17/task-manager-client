@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Draggable } from "@hello-pangea/dnd";
 import moment from "moment";
+import { useParams } from "react-router-dom";
 
 import { taskAllInfo, taskDetails } from "../../Types/Task";
 import { useTaskCtx } from "../../Contexts/TaskCtx";
@@ -16,6 +17,7 @@ const Card: React.FC<CardProps> = ({ task, index }) => {
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [showTaskDetails, setShowTaskDetails] = useState(false);
 
+  const { id: collectionId } = useParams();
   const { deleteTask, updateTaskAPi } = useTaskCtx();
 
   const dateTime = moment.utc(task.createdAt);
@@ -24,7 +26,7 @@ const Card: React.FC<CardProps> = ({ task, index }) => {
     task.title = taskDetails.title;
     task.description = taskDetails.description;
 
-    updateTaskAPi(task);
+    updateTaskAPi(task, collectionId as string);
 
     setShowEditPopup(false);
   };
@@ -57,7 +59,9 @@ const Card: React.FC<CardProps> = ({ task, index }) => {
               <div className="flex space-x-1  w-fit invisible group-hover:visible ">
                 <span
                   title="Delete"
-                  onClick={() => deleteTask(task.task_id)}
+                  onClick={() =>
+                    deleteTask(task.task_id, collectionId as string)
+                  }
                   className="material-symbols-outlined text-base hover:bg-red-400 p-1 rounded-md hover:text-white"
                 >
                   delete
