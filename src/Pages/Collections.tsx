@@ -1,26 +1,15 @@
-import React, { useEffect, useState } from "react";
-
-import Button from "../Components/Buttons/Button";
-import SearchAndSort from "../Components/Task/SearchAndSort";
-import CollectionCard from "../Components/Cards/CollectionCard";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { COLLECTIONS_ROUTE, TASK_BOARD_ROUTE } from "../Routes/routes";
-import Popup from "../Components/Popups/Popup";
-import Input from "../Components/Form/Input";
+
+import CollectionCard from "../Components/Cards/CollectionCard";
+import { TASK_BOARD_ROUTE } from "../Routes/routes";
 import { useCollectionCtx } from "../Contexts/CollectionCtx";
 import { collectionDetails } from "../Types/Collection";
 import CreateCollection from "../Components/Collection/CreateCollection";
 
-interface createCollectionPayload {
-  title: string;
-  description: string;
-}
-
 const Collections = () => {
-  const [showCreatePopup, setShowCreatePopup] = useState(false);
-
   const navigate = useNavigate();
-  const { getCollections, collectionList, isLoading } = useCollectionCtx();
+  const { getCollections, collectionList } = useCollectionCtx();
 
   const collectionOnclick = (collectionId: string) => {
     navigate(TASK_BOARD_ROUTE + "/" + collectionId);
@@ -28,6 +17,7 @@ const Collections = () => {
 
   useEffect(() => {
     getCollections();
+    //eslint-disable-next-line
   }, []);
 
   return (

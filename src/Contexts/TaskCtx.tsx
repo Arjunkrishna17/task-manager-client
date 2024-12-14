@@ -1,9 +1,8 @@
-import React, { useContext, useState, createContext, useEffect } from "react";
+import React, { useContext, useState, createContext } from "react";
 
 import useAxios from "../Hooks/useAxios";
 import { TASK_API } from "../Apis/Task";
 import { column, taskAllInfo } from "../Types/Task";
-import { useAuthCtx } from "./AuthCtx";
 import { createDNDConfig } from "../utils/Helper";
 
 interface dndConfig {
@@ -47,7 +46,6 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { axiosInstance, handleError } = useAxios();
-  const { isAuthenticated } = useAuthCtx();
 
   const updateTaskList = (taskList: dndConfig) => {
     setTaskList(taskList);
