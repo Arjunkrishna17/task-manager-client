@@ -19,7 +19,7 @@ const CreateCollection = ({ title, description }: CreateFormProps) => {
   });
   const [showCreatePopup, setShowCreatePopup] = useState(false);
 
-  const { axiosInstance, isLoading, setIsLoading, handleError } = useAxios();
+  const { axiosInstance, setIsLoading, handleError } = useAxios();
   const { getCollections } = useCollectionCtx();
 
   const inputChangeHandler = (type: string, value: string) => {
