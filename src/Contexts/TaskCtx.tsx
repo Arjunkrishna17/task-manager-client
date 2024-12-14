@@ -1,9 +1,8 @@
-import React, { useContext, useState, createContext, useEffect } from "react";
+import React, { useContext, useState, createContext } from "react";
 
 import useAxios from "../Hooks/useAxios";
 import { TASK_API } from "../Apis/Task";
 import { column, taskAllInfo } from "../Types/Task";
-import { useAuthCtx } from "./AuthCtx";
 import { createDNDConfig } from "../utils/Helper";
 
 interface dndConfig {
@@ -13,27 +12,31 @@ interface dndConfig {
 }
 
 interface taskCtx {
-  getAllTaskList: (searchTerm?: string, sortOrder?: string) => void;
+  getAllTaskList: (
+    collectionId: string,
+    searchTerm?: string,
+    sortOrder?: string
+  ) => void;
   taskList: dndConfig | undefined;
   updateTaskList: (taskList: dndConfig) => void;
-  updateStatus: (taskId: string, status: string) => void;
-  deleteTask: (taskId: string) => void;
-  updateTaskAPi: (task: taskAllInfo) => void;
+  updateStatus: (taskId: string, status: string, collectionId: string) => void;
+  deleteTask: (taskId: string, collectionId: string) => void;
+  updateTaskAPi: (task: taskAllInfo, collectionId: string) => void;
   isLoading: boolean;
   setIsLoading: (isLoading: boolean) => void;
-  updateTasksSortOrderAPi: (tasks: taskAllInfo[]) => void;
+  updateTasksSortOrderAPi: (tasks: taskAllInfo[], collectionId: string) => void;
 }
 
 const TaskCtxApi = createContext<taskCtx>({
-  getAllTaskList: (searchTerm?: string, sortOrder?: string) => {},
+  getAllTaskList: (collectionId, searchTerm?: string, sortOrder?: string) => {},
   updateTaskList: (tasklist: dndConfig) => {},
-  updateStatus: (taskId: string, status: string) => {},
+  updateStatus: (taskId: string, status: string, collectionId: string) => {},
   taskList: undefined,
-  deleteTask: (taskId: string) => {},
-  updateTaskAPi: (task: taskAllInfo) => {},
+  deleteTask: (taskId: string, collectionId: string) => {},
+  updateTaskAPi: (task: taskAllInfo, collectionId: string) => {},
   isLoading: false,
   setIsLoading: (isLoadingState: boolean) => {},
-  updateTasksSortOrderAPi: (tasks: taskAllInfo[]) => {},
+  updateTasksSortOrderAPi: (tasks: taskAllInfo[], collectionId: string) => {},
 });
 
 export const useTaskCtx = () => useContext(TaskCtxApi);
@@ -43,29 +46,31 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { axiosInstance, handleError } = useAxios();
-  const { isAuthenticated } = useAuthCtx();
 
   const updateTaskList = (taskList: dndConfig) => {
     setTaskList(taskList);
   };
 
-  const updateTasksSortOrderAPi = async (tasks: taskAllInfo[]) => {
+  const updateTasksSortOrderAPi = async (
+    tasks: taskAllInfo[],
+    collectionId: string
+  ) => {
     try {
       await axiosInstance.put(TASK_API, tasks);
     } catch (error) {
       handleError(error);
     } finally {
-      getAllTaskList();
+      getAllTaskList(collectionId);
     }
   };
 
-  const updateTaskStatus = async (task: taskAllInfo) => {
+  const updateTaskStatus = async (task: taskAllInfo, collectionId: string) => {
     try {
       await axiosInstance.put(TASK_API + "/" + task.task_id, task);
     } catch (error) {
       handleError(error);
     } finally {
-      getAllTaskList();
+      getAllTaskList(collectionId);
     }
   };
 
@@ -74,12 +79,20 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
       const selectedTask = taskList.tasks[taskId];
       selectedTask.status = status;
 
-      updateTasksSortOrderAPi(Object.values(taskList.tasks) as taskAllInfo[]);
+      updateTasksSortOrderAPi(
+        Object.values(taskList.tasks) as taskAllInfo[],
+        selectedTask.collection_id
+      );
     }
   };
 
-  const constructAllTaskUrl = (sortBy: string = "none", search?: string) => {
-    let url = TASK_API + "?sortOrder=" + sortBy;
+  const constructAllTaskUrl = (
+    collectionId: string,
+    sortBy: string = "none",
+    search?: string
+  ) => {
+    let url =
+      TASK_API + "?sortOrder=" + sortBy + "&collectionId=" + collectionId;
 
     if (search) {
       url += "&search=" + search;
@@ -88,10 +101,14 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
     return url;
   };
 
-  const getAllTaskList = async (searchTerm?: string, sortOrder?: string) => {
+  const getAllTaskList = async (
+    collectionId: string,
+    searchTerm?: string,
+    sortOrder?: string
+  ) => {
     try {
       const { data } = await axiosInstance.get(
-        constructAllTaskUrl(sortOrder, searchTerm)
+        constructAllTaskUrl(collectionId, sortOrder, searchTerm)
       );
 
       const dndConfig = createDNDConfig(data);
@@ -104,19 +121,11 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      getAllTaskList();
-    }
-
-    //eslint-disable-next-line
-  }, [isAuthenticated]);
-
-  const deleteTask = async (taskId: string) => {
+  const deleteTask = async (taskId: string, collectionId: string) => {
     try {
       await axiosInstance.delete(TASK_API + "/" + taskId);
 
-      await getAllTaskList();
+      await getAllTaskList(collectionId);
     } catch (error) {
       handleError(error);
     }

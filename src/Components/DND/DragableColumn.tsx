@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import { DragDropContext, Droppable, DropResult } from "@hello-pangea/dnd";
 
 import Card from "../Cards/Card";
@@ -7,13 +8,10 @@ import { column } from "../../Types/Task";
 import Skelton from "../Loading/Skelton";
 
 const DraggableColumns: React.FC = () => {
-  const {
-    taskList,
-    updateTaskList,
+  const { taskList, updateTaskList, isLoading, updateTasksSortOrderAPi } =
+    useTaskCtx();
 
-    isLoading,
-    updateTasksSortOrderAPi,
-  } = useTaskCtx();
+  const { id: collectionId } = useParams();
 
   if (!taskList) return null;
 
@@ -60,7 +58,7 @@ const DraggableColumns: React.FC = () => {
         },
       });
 
-      updateTasksSortOrderAPi(newTasks);
+      updateTasksSortOrderAPi(newTasks, collectionId as string);
 
       return;
     }
@@ -114,7 +112,10 @@ const DraggableColumns: React.FC = () => {
     });
 
     // Optionally update status in the backend
-    updateTasksSortOrderAPi([...newStartTasks, ...newFinishTasks]);
+    updateTasksSortOrderAPi(
+      [...newStartTasks, ...newFinishTasks],
+      collectionId as string
+    );
   };
 
   let body;
