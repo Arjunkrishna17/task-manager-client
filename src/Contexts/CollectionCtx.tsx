@@ -1,4 +1,9 @@
-import React, { createContext, useContext, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useLayoutEffect,
+  useState,
+} from "react";
 
 import {
   collectionDetails,
@@ -6,6 +11,7 @@ import {
 } from "../Types/Collection";
 import useAxios from "../Hooks/useAxios";
 import { GET_COLLECTION_API } from "../Apis/Collections";
+import { useAuthCtx } from "./AuthCtx";
 
 interface collectionCtxApiTypes {
   getCollections: () => void;
@@ -31,6 +37,7 @@ const CollectionCtx = ({ children }: { children: React.ReactNode }) => {
   >();
 
   const { axiosInstance, isLoading, setIsLoading, handleError } = useAxios();
+  const { isAuthenticated } = useAuthCtx();
 
   const getCollections = async () => {
     try {
@@ -38,7 +45,6 @@ const CollectionCtx = ({ children }: { children: React.ReactNode }) => {
 
       const { data } = await axiosInstance.get(GET_COLLECTION_API);
       setCollectionList(data);
-      
     } catch (error) {
       handleError(error);
     } finally {
@@ -76,6 +82,13 @@ const CollectionCtx = ({ children }: { children: React.ReactNode }) => {
       setIsLoading(false);
     }
   };
+
+  //Clear data
+  useLayoutEffect(() => {
+    if (!isAuthenticated) {
+      setCollectionList(undefined);
+    }
+  }, [isAuthenticated]);
 
   return (
     <CollectionCtxApi.Provider
