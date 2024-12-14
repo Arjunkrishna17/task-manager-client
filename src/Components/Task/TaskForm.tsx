@@ -10,6 +10,7 @@ interface popupProps {
   title?: string;
   description?: string;
   showPopup: boolean;
+  isLoading: boolean;
   closePopup: () => void;
   onSave: (taskDetails: taskDetails) => void;
 }
@@ -21,6 +22,7 @@ const TaskForm = ({
   title,
   description,
   type,
+  isLoading,
 }: popupProps) => {
   const [taskDetails, setTaskDetails] = useState({
     title: title || "",
@@ -73,7 +75,7 @@ const TaskForm = ({
         <Button
           type="primary"
           name="Save"
-          isLoading={false}
+          isLoading={isLoading}
           onClick={onSaveHandler}
           customClassNames="w-full"
         />

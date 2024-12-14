@@ -10,16 +10,27 @@ import { useCollectionCtx } from "../../Contexts/CollectionCtx";
 interface CreateFormProps {
   title?: string;
   description?: string;
+  isUpdate?: boolean;
+  updateCollectionId?: string;
+  onClose?: () => void;
+  isEdit?: boolean;
 }
 
-const CreateCollection = ({ title, description }: CreateFormProps) => {
+const CreateCollection = ({
+  title,
+  description,
+  isUpdate,
+  updateCollectionId,
+  onClose,
+  isEdit,
+}: CreateFormProps) => {
   const [formInputs, setFormInputs] = useState({
     title: title || "",
     description: description || "",
   });
   const [showCreatePopup, setShowCreatePopup] = useState(false);
 
-  const { axiosInstance, setIsLoading, handleError } = useAxios();
+  const { axiosInstance, setIsLoading, isLoading, handleError } = useAxios();
   const { getCollections } = useCollectionCtx();
 
   const inputChangeHandler = (type: string, value: string) => {
@@ -41,22 +52,45 @@ const CreateCollection = ({ title, description }: CreateFormProps) => {
     } finally {
       setIsLoading(false);
       setShowCreatePopup(false);
+      setFormInputs({ title: "", description: "" });
+    }
+  };
+
+  const updateCollection = async () => {
+    try {
+      setIsLoading(true);
+
+      await axiosInstance.put(GET_COLLECTION_API + "/" + updateCollectionId, {
+        name: formInputs.title,
+        description: formInputs.description,
+      });
+
+      getCollections();
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setIsLoading(false);
+      setShowCreatePopup(false);
     }
   };
 
   return (
     <>
-      <Button
-        name="+ collection"
-        onClick={() => setShowCreatePopup(true)}
-        type="primary"
-        isLoading={false}
-        customClassNames=" w-fit"
-      />
+      {!isUpdate && (
+        <Button
+          name="+ collection"
+          onClick={() => setShowCreatePopup(true)}
+          type="primary"
+          isLoading={false}
+          customClassNames=" w-fit"
+        />
+      )}
 
       <Popup
-        show={showCreatePopup}
-        onClose={() => setShowCreatePopup(false)}
+        show={isEdit || showCreatePopup}
+        onClose={() => {
+          onClose ? onClose() : setShowCreatePopup(false);
+        }}
         heading="Create Collection"
       >
         <div className="space-y-5">
@@ -85,11 +119,11 @@ const CreateCollection = ({ title, description }: CreateFormProps) => {
           </div>
 
           <Button
-            name="Create"
-            onClick={createCollection}
+            name={isUpdate ? "Update" : "Create"}
+            onClick={isUpdate ? updateCollection : createCollection}
             type="primary"
-            isLoading={false}
             customClassNames=" w-full"
+            isLoading={isLoading}
           />
         </div>
       </Popup>

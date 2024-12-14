@@ -43,11 +43,16 @@ const Card: React.FC<CardProps> = ({ task, index }) => {
               ...provided.draggableProps.style,
               cursor: "pointer",
             }}
-            className="flex flex-col p-5 border rounded-lg h-32 bg-blue-50 justify-between cursor-pointer hover:border hover:border-blue-900 group"
+            className="flex relative flex-col p-5 border rounded-lg h-32 bg-blue-50 justify-between cursor-pointer hover:border hover:border-blue-900 group"
           >
-            <h5 className="font-bold truncate">{task.title}</h5>
+            <h5 title={task.title} className="font-bold line-clamp-1">
+              {task.title}
+            </h5>
 
-            <p className="text-sm line-clamp-3 h-10 overflow-hidden">
+            <p
+              title={task.description}
+              className="text-sm line-clamp-2 h-10 overflow-hidden"
+            >
               {task.description}
             </p>
 
@@ -56,7 +61,7 @@ const Card: React.FC<CardProps> = ({ task, index }) => {
                 {"Created: " + dateTime.fromNow()}
               </p>
 
-              <div className="flex space-x-1  w-fit invisible group-hover:visible ">
+              <div className="flex space-x-1 absolute bottom-1 right-5  w-fit sm:invisible group-hover:visible ">
                 <span
                   title="Delete"
                   onClick={() =>
@@ -87,6 +92,7 @@ const Card: React.FC<CardProps> = ({ task, index }) => {
       </Draggable>
 
       <TaskForm
+        isLoading={true}
         type="Edit Task"
         title={task.title}
         description={task?.description}

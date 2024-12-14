@@ -5,7 +5,7 @@ interface buttonProps {
   onClick: () => void;
   name: string;
   disable?: boolean;
-  type: "primary" | "secondary";
+  type: "primary" | "secondary" | "danger";
   customClassNames?: string;
   isLoading: boolean;
   customStyles?: { [key: string]: string };
@@ -25,11 +25,13 @@ const Button = ({
   if (type === "primary") {
     classNames =
       "flex border justify-center items-center rounded-lg px-5 bg-blue-800 font-semibold text-white hover:bg-blue-700 disabled:opacity-30 min-h-10";
-  } else {
+  } else if (type === "secondary") {
     classNames =
-      "flex w-full font-semibold text-blue-900 justify-center items-center font-semibold  hover:opacity-90 disabled:opacity-30 ";
+      "flex border justify-center items-center rounded-lg px-5 font-semibold bg-gray-200 hover:bg-gray-300 text-gray-700 disabled:opacity-30 min-h-10 ";
+  } else if (type === "danger") {
+    classNames =
+      "flex border justify-center items-center rounded-lg px-5 bg-red-500 font-semibold text-white hover:bg-red-600 disabled:opacity-30 min-h-10";
   }
-
   return (
     <button
       style={{ ...customStyles }}

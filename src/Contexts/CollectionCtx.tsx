@@ -10,6 +10,7 @@ import { GET_COLLECTION_API } from "../Apis/Collections";
 interface collectionCtxApiTypes {
   getCollections: () => void;
   createCollection: (payload: createCollectionPayload) => void;
+  deleteCollection: (collectionId: string) => void;
   collectionList: collectionDetails[] | undefined;
   isLoading: boolean;
 }
@@ -17,6 +18,7 @@ interface collectionCtxApiTypes {
 const CollectionCtxApi = createContext<collectionCtxApiTypes>({
   getCollections: () => {},
   createCollection: (payload) => {},
+  deleteCollection: (collectionId) => {},
   collectionList: undefined,
   isLoading: true,
 });
@@ -35,8 +37,8 @@ const CollectionCtx = ({ children }: { children: React.ReactNode }) => {
       setIsLoading(true);
 
       const { data } = await axiosInstance.get(GET_COLLECTION_API);
-
       setCollectionList(data);
+      
     } catch (error) {
       handleError(error);
     } finally {
@@ -61,9 +63,29 @@ const CollectionCtx = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const deleteCollection = async (collectionId: string) => {
+    try {
+      setIsLoading(true);
+
+      await axiosInstance.delete(GET_COLLECTION_API + "/" + collectionId);
+
+      getCollections();
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <CollectionCtxApi.Provider
-      value={{ collectionList, isLoading, getCollections, createCollection }}
+      value={{
+        collectionList,
+        isLoading,
+        getCollections,
+        createCollection,
+        deleteCollection,
+      }}
     >
       {children}
     </CollectionCtxApi.Provider>

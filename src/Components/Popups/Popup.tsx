@@ -14,7 +14,7 @@ const Popup = ({ heading, onClose, children, show }: popUpProps) => {
 
   const popuphtml = (
     <>
-      <section className="fixed inset-0 flex items-center justify-center z-50">
+      <section className="fixed inset-0 flex items-center justify-center z-50 mx-10">
         <div className="relative bg-white border-4 rounded-lg shadow-lg min-w-[350px]">
           {/* Header */}
           <div className="flex justify-between items-center border-b rounded-t-lg py-2 px-5">

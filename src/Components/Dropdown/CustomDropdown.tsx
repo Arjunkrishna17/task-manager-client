@@ -49,7 +49,10 @@ const CustomDropdown = ({
       {/* Dropdown Toggle */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="flex items-center gap-2 px-4 py-2 text-white rounded-lg hover:text-black text-lg  hover:bg-blue-200"
+        className={
+          "flex items-center gap-2 px-4 py-1  rounded-lg hover:text-black text-lg  hover:bg-blue-200 " +
+          (value?.title ? " bg-blue-200 text-black" : "")
+        }
       >
         {value?.title || name}
         <span className="text-xs">▼</span>
@@ -57,7 +60,7 @@ const CustomDropdown = ({
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute left-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+        <div className="absolute -left-20 sm:left-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
           {/* Dropdown Items */}
           <div className="p-2 space-y-2">
             {options?.map((item) => (

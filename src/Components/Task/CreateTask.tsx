@@ -10,8 +10,8 @@ import { useTaskCtx } from "../../Contexts/TaskCtx";
 const CreateTask = () => {
   const [showPopup, setShowPopup] = useState(false);
 
-  const { axiosInstance, handleError } = useAxios();
-  const { getAllTaskList, setIsLoading } = useTaskCtx();
+  const { axiosInstance, handleError, setIsLoading, isLoading } = useAxios();
+  const { getAllTaskList } = useTaskCtx();
   const { id: collectionId } = useParams();
 
   const createTaskApi = async (userDetails: taskDetails) => {
@@ -48,6 +48,7 @@ const CreateTask = () => {
 
       {showPopup && (
         <TaskForm
+          isLoading={isLoading}
           type="Add Task"
           onSave={createTaskApi}
           showPopup={showPopup}
