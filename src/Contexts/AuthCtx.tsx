@@ -73,7 +73,7 @@ const AuthCtx = ({ children }: { children: React.ReactNode }) => {
       location.pathname === SIGN_UP_ROUTE ||
       redirect
     ) {
-      navigate(COLLECTIONS_ROUTE);
+      navigate(COLLECTIONS_ROUTE, { replace: true });
     }
   };
 
