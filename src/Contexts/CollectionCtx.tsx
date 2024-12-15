@@ -61,7 +61,7 @@ const CollectionCtx = ({ children }: { children: React.ReactNode }) => {
         description: payload.description,
       });
 
-      getCollections();
+      await getCollections();
     } catch (error) {
       handleError(error);
     } finally {
@@ -75,7 +75,7 @@ const CollectionCtx = ({ children }: { children: React.ReactNode }) => {
 
       await axiosInstance.delete(GET_COLLECTION_API + "/" + collectionId);
 
-      getCollections();
+      await getCollections();
     } catch (error) {
       handleError(error);
     } finally {
