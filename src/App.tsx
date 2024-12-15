@@ -27,7 +27,7 @@ const App = () => {
     <main className="flex flex-col min-h-screen bg-gray-100">
       <AllContexts>
         <Navbar />
-        <div className="mt-16">
+        <div className="flex flex-col h-[calc(100vh-4rem)] mt-16 overflow-y-auto">
           <Routes>
             <Route element={<Login />} path="/login" />
             <Route element={<SignUp />} path="/signup" />
