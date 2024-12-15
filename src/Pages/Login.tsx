@@ -7,7 +7,7 @@ import Button from "../Components/Buttons/Button";
 import useAxios from "../Hooks/useAxios";
 import { SIGN_IN_API } from "../Apis/Auth";
 import { useAuthCtx } from "../Contexts/AuthCtx";
-import { SIGN_UP_ROUTE } from "../Routes/routes";
+import { FORGOT_PASSWORD_ROUTE, SIGN_UP_ROUTE } from "../Routes/routes";
 import GoogleLogin from "../Components/Auth/GoogleLogin";
 import { ErrorFields } from "../Types/Form";
 import { validate } from "../utils/Validator";
@@ -102,22 +102,39 @@ const Login = () => {
           name="Sign in"
         />
 
-        <div className="flex space-x-1 text-xs w-full">
-          <p className="w-34 ">Don't have an account?</p>
-          <Button
-            isLoading={false}
-            disable={isLoading || disable}
-            onClick={signUpBtnHandler}
-            type="tertiary"
-            name="Sign up"
-            customStyles={{ width: "fit-content" }}
-          />
-        </div>
+        <p className="text-center w-full">{"(OR)"}</p>
+
         <GoogleOAuthProvider
           clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}
         >
           <GoogleLogin loader={(state: boolean) => setIsDisable(state)} />
         </GoogleOAuthProvider>
+
+        <div className="space-y-1">
+          <div className="flex space-x-1 text-xs w-full">
+            <p className="w-34 ">Don't have an account?</p>
+            <Button
+              isLoading={false}
+              disable={isLoading || disable}
+              onClick={signUpBtnHandler}
+              type="tertiary"
+              name="Sign up"
+              customStyles={{ width: "fit-content" }}
+            />
+          </div>
+
+          <div className="flex space-x-1 text-xs w-full">
+            <p className="w-34 ">Forgot your password?</p>
+            <Button
+              isLoading={false}
+              disable={isLoading || disable}
+              onClick={() => navigate(FORGOT_PASSWORD_ROUTE)}
+              type="tertiary"
+              name="Reset it"
+              customStyles={{ width: "fit-content" }}
+            />
+          </div>
+        </div>
 
         <p className="text-red-500 text-sm">{error}</p>
       </div>

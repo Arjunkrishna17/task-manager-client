@@ -11,12 +11,16 @@ import AllContexts from "./Contexts/AllContexts";
 import AuthProvider from "./Providers/AuthProvider";
 import SignUp from "./Pages/SignUp";
 import UserProfile from "./Pages/UserProfile";
+import ResetPassword from "./Pages/RestPassword";
 import {
   COLLECTIONS_ROUTE,
+  FORGOT_PASSWORD_ROUTE,
   PROFILE_PAGE_ROUTE,
+  RESET_PASSWORD,
   TASK_BOARD_ROUTE,
 } from "./Routes/routes";
 import Collections from "./Pages/Collections";
+import ForgotPassword from "./Pages/ForgotPassword";
 
 const App = () => {
   return (
@@ -27,6 +31,11 @@ const App = () => {
         <Routes>
           <Route element={<Login />} path="/login" />
           <Route element={<SignUp />} path="/signup" />
+          <Route element={<ForgotPassword />} path={FORGOT_PASSWORD_ROUTE} />
+          <Route
+            element={<ResetPassword />}
+            path={RESET_PASSWORD + "/:token"}
+          />
 
           <Route element={<AuthProvider />}>
             <Route element={<Collections />} path={COLLECTIONS_ROUTE} />

@@ -20,7 +20,7 @@ type AuthContextType = {
   isAuthenticated: boolean;
   token: string;
   logout: () => void;
-  handleToken: (token: string) => void;
+  handleToken: (token: string, redirect?: boolean) => void;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -30,7 +30,7 @@ const AuthCtxApi = createContext<AuthContextType>({
   isAuthenticated: false,
   token: "",
   logout: () => {},
-  handleToken: (token: string) => {},
+  handleToken: (token: string, redirect?: boolean) => {},
   isLoading: false,
   setIsLoading: () => {},
 });
@@ -51,7 +51,7 @@ const AuthCtx = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleToken = (token: string) => {
+  const handleToken = (token: string, redirect: boolean = false) => {
     setIsLoading(true);
 
     const decodedToken: tokeDetails = jwtDecode(token);
@@ -70,7 +70,8 @@ const AuthCtx = ({ children }: { children: React.ReactNode }) => {
 
     if (
       location.pathname === LOGIN_ROUTE ||
-      location.pathname === SIGN_UP_ROUTE
+      location.pathname === SIGN_UP_ROUTE ||
+      redirect
     ) {
       navigate(COLLECTIONS_ROUTE);
     }
