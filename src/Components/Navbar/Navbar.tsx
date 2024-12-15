@@ -75,7 +75,7 @@ const Navbar = () => {
               height={40}
             />
 
-            <h3 className="text-xl font-semibold text-blue-50 mt-1">
+            <h3 className="text-xl hidden sm:flex font-semibold text-blue-50 mt-1">
               Task Manager
             </h3>
           </div>

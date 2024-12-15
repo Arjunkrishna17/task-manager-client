@@ -24,10 +24,10 @@ import ForgotPassword from "./Pages/ForgotPassword";
 
 const App = () => {
   return (
-    <main className="flex flex-col min-h-screen bg-gray-100">
+    <main className="flex flex-col h-screen bg-gray-100">
       <AllContexts>
         <Navbar />
-        <div className="flex flex-col h-[calc(100vh-4rem)] mt-16 overflow-y-auto">
+        <div className="flex flex-col h-full mt-16 overflow-y-auto">
           <Routes>
             <Route element={<Login />} path="/login" />
             <Route element={<SignUp />} path="/signup" />
