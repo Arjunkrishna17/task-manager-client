@@ -51,7 +51,7 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
   const [taskList, setTaskList] = useState<dndConfig | undefined>();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { axiosInstance, handleError } = useAxios();
+  const { axiosInstance, handleError, handleSuccess } = useAxios();
   const { isAuthenticated } = useAuthCtx();
 
   useLayoutEffect(() => {
@@ -80,6 +80,7 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
   const updateTaskStatus = async (task: taskAllInfo, collectionId: string) => {
     try {
       await axiosInstance.put(TASK_API + "/" + task.task_id, task);
+      handleSuccess("Task updated successfully");
     } catch (error) {
       handleError(error);
     } finally {

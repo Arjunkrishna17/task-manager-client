@@ -18,7 +18,7 @@ const Card: React.FC<CardProps> = ({ task, index }) => {
   const [showTaskDetails, setShowTaskDetails] = useState(false);
 
   const { id: collectionId } = useParams();
-  const { deleteTask, updateTaskAPi } = useTaskCtx();
+  const { deleteTask, updateTaskAPi, isLoading } = useTaskCtx();
 
   const dateTime = moment.utc(task.createdAt);
 
@@ -92,7 +92,7 @@ const Card: React.FC<CardProps> = ({ task, index }) => {
       </Draggable>
 
       <TaskForm
-        isLoading={true}
+        isLoading={isLoading}
         type="Edit Task"
         title={task.title}
         description={task?.description}
