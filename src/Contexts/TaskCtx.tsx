@@ -137,11 +137,14 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
 
   const deleteTask = async (taskId: string, collectionId: string) => {
     try {
+      setIsLoading(true);
       await axiosInstance.delete(TASK_API + "/" + taskId);
 
       await getAllTaskList(collectionId);
     } catch (error) {
       handleError(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
