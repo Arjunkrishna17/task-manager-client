@@ -14,8 +14,13 @@ const TaskDetails = ({ task, onClose, show }: taskDetailsprops) => {
   const dateTime = moment(task.createdAt);
 
   return (
-    <Popup heading="Task Details" onClose={onClose} show={show}>
-      <div className="space-y-3">
+    <Popup
+      heading="Task Details"
+      className="w-1/2 h-1/2"
+      onClose={onClose}
+      show={show}
+    >
+      <div className="space-y-3 ">
         <div className="flex flex-col space-y-1">
           <label className="text-sm font-bold">Title</label>
           <h3 className="text-wrap">{task.title}</h3>
