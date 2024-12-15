@@ -17,7 +17,7 @@ const Tasks = () => {
   }, [collectionId]);
 
   return (
-    <div className="flex flex-col space-y-5 h-full my-5 mx-5 sm:mx-14">
+    <div className="flex flex-col space-y-3 h-full my-3 mx-5 sm:mx-14">
       <div className="flex justify-between items-center">
         <div className="flex space-x-2 items-center font-bold text-xl">
           <span className="material-symbols-outlined">Task</span>

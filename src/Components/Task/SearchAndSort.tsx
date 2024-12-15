@@ -48,9 +48,9 @@ const SearchAndSort = () => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row justify-between px-5 py-4 border bg-white shadow-sm space-y-4 sm:space-y-0 sm:space-x-4">
+    <div className="flex flex-col sm:flex-row justify-between px-5 py-2 border bg-white shadow-sm space-y-4 sm:space-y-0 sm:space-x-4">
       {/* Search Section */}
-      <div className="flex space-x-2 items-center ">
+      <div className="flex space-x-2 text-sm items-center ">
         <h5 className="font-semibold">Search</h5>
         <Input
           placeholder="Search"
@@ -63,7 +63,7 @@ const SearchAndSort = () => {
       </div>
 
       {/* Sort Section */}
-      <div className="flex   space-x-2 items-center ">
+      <div className="flex text-sm  space-x-2 items-center ">
         <h5 className="font-semibold">Sort By</h5>
         <select
           onChange={sortHandler}

@@ -27,22 +27,23 @@ const App = () => {
     <main className="flex flex-col min-h-screen bg-gray-100">
       <AllContexts>
         <Navbar />
+        <div className="mt-16">
+          <Routes>
+            <Route element={<Login />} path="/login" />
+            <Route element={<SignUp />} path="/signup" />
+            <Route element={<ForgotPassword />} path={FORGOT_PASSWORD_ROUTE} />
+            <Route
+              element={<ResetPassword />}
+              path={RESET_PASSWORD + "/:token"}
+            />
 
-        <Routes>
-          <Route element={<Login />} path="/login" />
-          <Route element={<SignUp />} path="/signup" />
-          <Route element={<ForgotPassword />} path={FORGOT_PASSWORD_ROUTE} />
-          <Route
-            element={<ResetPassword />}
-            path={RESET_PASSWORD + "/:token"}
-          />
-
-          <Route element={<AuthProvider />}>
-            <Route element={<Collections />} path={COLLECTIONS_ROUTE} />
-            <Route element={<Tasks />} path={TASK_BOARD_ROUTE + "/:id"} />
-            <Route element={<UserProfile />} path={PROFILE_PAGE_ROUTE} />
-          </Route>
-        </Routes>
+            <Route element={<AuthProvider />}>
+              <Route element={<Collections />} path={COLLECTIONS_ROUTE} />
+              <Route element={<Tasks />} path={TASK_BOARD_ROUTE + "/:id"} />
+              <Route element={<UserProfile />} path={PROFILE_PAGE_ROUTE} />
+            </Route>
+          </Routes>
+        </div>
 
         <ToastContainer position="bottom-right" />
       </AllContexts>

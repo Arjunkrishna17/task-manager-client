@@ -64,7 +64,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex w-full h-16 items-center px-5 sm:px-16 justify-between bg-blue-900">
+    <div className="flex w-full fixed z-20  h-16 items-center px-5 sm:px-16 justify-between bg-blue-900">
       <div className="flex space-x-5 sm:space-x-10 items-center">
         <a className="cursor-pointer" href={HOME_PAGE}>
           <div className="flex space-x-2 items-center">
