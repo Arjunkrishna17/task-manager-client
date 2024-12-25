@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import ReactDOM from "react-dom";
 
 // Define a type for the dropdown item
 export type DropdownItem = {
