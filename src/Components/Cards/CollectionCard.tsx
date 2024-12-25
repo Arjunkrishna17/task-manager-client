@@ -29,7 +29,7 @@ const CollectionCard = ({
     <>
       <div
         onClick={() => onClick(collectionId)}
-        className="flex relative flex-col space-y-2 h-32 cursor-pointer w-44 sm:w-52 rounded-lg border-2 shadow-sm p-3 group bg-gradient-to-r bg-white hover:border-blue-900"
+        className="flex relative flex-col space-y-2 h-32 cursor-pointer w-full sm:w-52 rounded-lg border-2 shadow-sm p-3 group bg-gradient-to-r bg-white hover:border-blue-900"
       >
         <h5
           title={collectionName}

@@ -38,7 +38,7 @@ const Collections = () => {
   }
 
   return (
-    <section className=" flex flex-col  w-full h-[calc(100vh-4rem)] px-5 sm:px-16 py-5 space-y-5">
+    <section className=" flex flex-col  w-full h-[calc(100vh-4rem)] px-5 sm:px-16 py-5 space-y-5 ">
       <div className="flex flex-col space-y-5 sm:space-y-0 sm:flex-row justify-between  ">
         <div className="flex space-x-2 items-center font-bold text-xl">
           <span className="material-symbols-outlined">category</span>
@@ -47,7 +47,7 @@ const Collections = () => {
         <CreateCollection />
       </div>
 
-      <div className="flex flex-wrap gap-3">{body}</div>
+      <div className="flex flex-wrap gap-3 overflow-y-auto">{body}</div>
     </section>
   );
 };
