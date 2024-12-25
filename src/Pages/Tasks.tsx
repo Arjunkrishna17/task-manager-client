@@ -7,13 +7,19 @@ import SearchAndSort from "../Components/Task/SearchAndSort";
 import { useTaskCtx } from "../Contexts/TaskCtx";
 
 const Tasks = () => {
-  const { getAllTaskList, setIsLoading } = useTaskCtx();
+  const { getAllTaskList, setIsLoading, setCollectionId } = useTaskCtx();
   const { id: collectionId } = useParams();
+
+  const cachedFilter = localStorage.getItem("filter" + collectionId)
+    ? JSON.parse(localStorage.getItem("filter" + collectionId) as string)
+    : undefined;
+  const cachedSort = localStorage.getItem("sort" + collectionId) || undefined;
 
   useEffect(() => {
     if (collectionId) {
       setIsLoading(true);
-      getAllTaskList(collectionId);
+      getAllTaskList(collectionId, "", cachedSort, cachedFilter);
+      setCollectionId(collectionId);
     }
 
     //eslint-disable-next-line
@@ -33,7 +39,7 @@ const Tasks = () => {
         <SearchAndSort />
       </div>
 
-      <div className="grow overflow-y-auto">
+      <div className="grow overflow-y-auto overflow-x-hidden">
         <DraggableColumn />
       </div>
     </div>

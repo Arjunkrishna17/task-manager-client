@@ -37,6 +37,7 @@ interface taskCtx {
   isLoading: boolean;
   setIsLoading: (isLoading: boolean) => void;
   updateTasksSortOrderAPi: (tasks: taskAllInfo[], collectionId: string) => void;
+  setCollectionId: (collectionId: string) => void;
 }
 
 const TaskCtxApi = createContext<taskCtx>({
@@ -54,6 +55,7 @@ const TaskCtxApi = createContext<taskCtx>({
   isLoading: false,
   setIsLoading: (isLoadingState: boolean) => {},
   updateTasksSortOrderAPi: (tasks: taskAllInfo[], collectionId: string) => {},
+  setCollectionId: (collectionId: string) => {},
 });
 
 export const useTaskCtx = () => useContext(TaskCtxApi);
@@ -61,9 +63,17 @@ export const useTaskCtx = () => useContext(TaskCtxApi);
 const TaskCtx = ({ children }: { children: React.ReactNode }) => {
   const [taskList, setTaskList] = useState<dndConfig | undefined>();
   const [isLoading, setIsLoading] = useState(false);
+  const [collectionId, setCollectionId] = useState("");
 
   const { axiosInstance, handleError } = useAxios();
   const { isAuthenticated } = useAuthCtx();
+
+  const cachedFilter = localStorage.getItem("filter" + collectionId)
+    ? JSON.parse(localStorage.getItem("filter" + collectionId) as string)
+    : undefined;
+  const cachedSort = localStorage.getItem("sort" + collectionId) || undefined;
+  const cachedSearch =
+    localStorage.getItem("search" + collectionId) || undefined; //TODO: take the search logic to task ctx and remove cache
 
   useLayoutEffect(() => {
     if (!isAuthenticated) {
@@ -94,7 +104,7 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       handleError(error);
     } finally {
-      getAllTaskList(collectionId);
+      getAllTaskList(collectionId, cachedSearch, cachedSort, cachedFilter);
     }
   };
 
@@ -192,6 +202,7 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
         updateTasksSortOrderAPi,
         isLoading,
         setIsLoading,
+        setCollectionId,
       }}
     >
       {children}
