@@ -68,7 +68,7 @@ const UserProfile = () => {
     body = <Loading />;
   } else if (userInfo) {
     body = (
-      <div className="w-[350px] sm:w-[500px] lg:w-[1000px] mt-16 relative ">
+      <div className="w-[350px] sm:w-[500px] lg:w-[1000px] mt-10 sm:mt-16 relative ">
         <div className="bg-gradient-to-r from-blue-600 to-blue-300 border h-48 rounded-tl-full"></div>
 
         <div className="absolute top-40 left-10 ">

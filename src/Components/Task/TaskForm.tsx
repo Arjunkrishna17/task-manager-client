@@ -4,16 +4,20 @@ import Popup from "../Popups/Popup";
 import Input from "../Form/Input";
 import Button from "../Buttons/Button";
 import { taskDetails } from "../../Types/Task";
+import Priority from "../Cards/Priority";
 
 interface popupProps {
   type: string;
   title?: string;
   description?: string;
+  priority?: string;
   showPopup: boolean;
   isLoading: boolean;
   closePopup: () => void;
   onSave: (taskDetails: taskDetails) => void;
 }
+
+const priorities = ["Critical", "High", "Medium", "Low"];
 
 const TaskForm = ({
   showPopup,
@@ -21,12 +25,14 @@ const TaskForm = ({
   onSave,
   title,
   description,
+  priority,
   type,
   isLoading,
 }: popupProps) => {
   const [taskDetails, setTaskDetails] = useState({
     title: title || "",
     description: description || "",
+    priority: priority || "Medium",
   });
   const [showValidation, setShowValidation] = useState(false);
 
@@ -62,7 +68,7 @@ const TaskForm = ({
 
         <div className="flex flex-col space-y-1">
           <label className="font-semibold text-xs" htmlFor="description">
-            description
+            Description
           </label>
 
           <textarea
@@ -72,6 +78,30 @@ const TaskForm = ({
             className="border h-28 resize-none rounded-md py-1 text-sm active:outline-blue-500 focus:outline-blue-500 px-2 placeholder:text-sm"
           />
         </div>
+
+        <div className="flex flex-col space-y-2">
+          <label className="font-semibold text-xs" htmlFor="description">
+            Priority
+          </label>
+
+          <div className="flex space-x-5">
+            {priorities.map((priority) => (
+              <div
+                key="priority"
+                onClick={() => inputHandler("priority", priority)}
+                className={
+                  "border rounded-lg flex justify-center items-center cursor-pointer" +
+                  (priority === taskDetails.priority
+                    ? " border-blue-900"
+                    : " hover:border hover:border-blue-900 ")
+                }
+              >
+                <Priority taskPriority={priority} />
+              </div>
+            ))}
+          </div>
+        </div>
+
         <Button
           type="primary"
           name="Save"

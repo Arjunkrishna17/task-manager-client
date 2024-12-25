@@ -3,6 +3,7 @@ import React from "react";
 import { taskAllInfo } from "../../Types/Task";
 import moment from "moment";
 import Popup from "../Popups/Popup";
+import Priority from "../Cards/Priority";
 
 interface taskDetailsprops {
   task: taskAllInfo;
@@ -36,6 +37,11 @@ const TaskDetails = ({ task, onClose, show }: taskDetailsprops) => {
           <p className="text-xs italic">
             {dateTime.format("DD/MM/YYYY hh:mm A")}
           </p>
+        </div>
+
+        <div className="flex flex-col space-y-2">
+          <label className="text-sm font-bold ">Priority</label>
+          <Priority taskPriority={task.priority} />
         </div>
       </div>
     </Popup>

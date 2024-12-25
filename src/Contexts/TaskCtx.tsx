@@ -17,16 +17,22 @@ interface dndConfig {
   columnOrder: string[];
 }
 
+interface filter {
+  type: string;
+  value: string;
+}
+
 interface taskCtx {
   getAllTaskList: (
     collectionId: string,
     searchTerm?: string,
-    sortOrder?: string
+    sortOrder?: string,
+    filter?: filter
   ) => void;
   taskList: dndConfig | undefined;
   updateTaskList: (taskList: dndConfig) => void;
   updateStatus: (taskId: string, status: string, collectionId: string) => void;
-  deleteTask: (taskId: string, collectionId: string) => void;
+  deleteTask: (task: taskAllInfo, collectionId: string) => void;
   updateTaskAPi: (task: taskAllInfo, collectionId: string) => void;
   isLoading: boolean;
   setIsLoading: (isLoading: boolean) => void;
@@ -34,11 +40,16 @@ interface taskCtx {
 }
 
 const TaskCtxApi = createContext<taskCtx>({
-  getAllTaskList: (collectionId, searchTerm?: string, sortOrder?: string) => {},
+  getAllTaskList: (
+    collectionId,
+    searchTerm?: string,
+    sortOrder?: string,
+    filter?: filter
+  ) => {},
   updateTaskList: (tasklist: dndConfig) => {},
   updateStatus: (taskId: string, status: string, collectionId: string) => {},
   taskList: undefined,
-  deleteTask: (taskId: string, collectionId: string) => {},
+  deleteTask: (task: taskAllInfo, collectionId: string) => {},
   updateTaskAPi: (task: taskAllInfo, collectionId: string) => {},
   isLoading: false,
   setIsLoading: (isLoadingState: boolean) => {},
@@ -51,7 +62,7 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
   const [taskList, setTaskList] = useState<dndConfig | undefined>();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { axiosInstance, handleError, handleSuccess } = useAxios();
+  const { axiosInstance, handleError } = useAxios();
   const { isAuthenticated } = useAuthCtx();
 
   useLayoutEffect(() => {
@@ -80,7 +91,6 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
   const updateTaskStatus = async (task: taskAllInfo, collectionId: string) => {
     try {
       await axiosInstance.put(TASK_API + "/" + task.task_id, task);
-      handleSuccess("Task updated successfully");
     } catch (error) {
       handleError(error);
     } finally {
@@ -103,7 +113,8 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
   const constructAllTaskUrl = (
     collectionId: string,
     sortBy: string = "none",
-    search?: string
+    search?: string,
+    filter?: filter
   ) => {
     let url =
       TASK_API + "?sortOrder=" + sortBy + "&collectionId=" + collectionId;
@@ -112,17 +123,22 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
       url += "&search=" + search;
     }
 
+    if (filter) {
+      url += "&" + filter.type + "=" + filter.value;
+    }
+
     return url;
   };
 
   const getAllTaskList = async (
     collectionId: string,
     searchTerm?: string,
-    sortOrder?: string
+    sortOrder?: string,
+    filter?: filter
   ) => {
     try {
       const { data } = await axiosInstance.get(
-        constructAllTaskUrl(collectionId, sortOrder, searchTerm)
+        constructAllTaskUrl(collectionId, sortOrder, searchTerm, filter)
       );
 
       const dndConfig = createDNDConfig(data);
@@ -135,16 +151,32 @@ const TaskCtx = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const deleteTask = async (taskId: string, collectionId: string) => {
+  const deleteTask = async (task: taskAllInfo, collectionId: string) => {
     try {
-      setIsLoading(true);
-      await axiosInstance.delete(TASK_API + "/" + taskId);
+      await axiosInstance.delete(TASK_API + "/" + task.task_id);
 
-      await getAllTaskList(collectionId);
+      const columns = {
+        "To Do": "column-1",
+        "In Progress": "column-2",
+        Completed: "column-3",
+      };
+
+      const taskListCopy = structuredClone(taskList);
+
+      if (taskListCopy) {
+        delete taskListCopy?.tasks[task.task_id];
+        const columnName = columns[task.status as keyof typeof columns];
+
+        taskListCopy.columns[columnName].taskIds = taskListCopy.columns[
+          columnName
+        ].taskIds.filter((id: string) => id !== task.task_id);
+
+        setTaskList(taskListCopy);
+      }
     } catch (error) {
       handleError(error);
     } finally {
-      setIsLoading(false);
+      getAllTaskList(collectionId);
     }
   };
 

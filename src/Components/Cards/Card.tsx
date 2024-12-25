@@ -7,6 +7,7 @@ import { taskAllInfo, taskDetails } from "../../Types/Task";
 import { useTaskCtx } from "../../Contexts/TaskCtx";
 import TaskForm from "../Task/TaskForm";
 import TaskDetails from "../Task/TaskDetails";
+import Priority from "./Priority";
 
 interface CardProps {
   task: taskAllInfo;
@@ -25,6 +26,7 @@ const Card: React.FC<CardProps> = ({ task, index }) => {
   const onSave = async (taskDetails: taskDetails) => {
     task.title = taskDetails.title;
     task.description = taskDetails.description;
+    task.priority = taskDetails.priority;
 
     updateTaskAPi(task, collectionId as string);
 
@@ -43,18 +45,22 @@ const Card: React.FC<CardProps> = ({ task, index }) => {
               ...provided.draggableProps.style,
               cursor: "pointer",
             }}
-            className="flex relative flex-col p-5 border rounded-lg h-32 bg-blue-50 justify-between cursor-pointer hover:border hover:border-blue-900 group"
+            className="flex relative flex-col p-5 border rounded-lg max-h-44 space-y-2 bg-white justify-between cursor-pointer hover:border hover:border-blue-900 group"
           >
             <h5 title={task.title} className="font-bold line-clamp-1">
               {task.title}
             </h5>
 
-            <p
-              title={task.description}
-              className="text-sm line-clamp-2 h-10 overflow-hidden"
-            >
-              {task.description}
-            </p>
+            {task.description && (
+              <p
+                title={task.description}
+                className="text-sm line-clamp-2 max-h-10 overflow-hidden"
+              >
+                {task.description}
+              </p>
+            )}
+
+            <Priority taskPriority={task.priority} />
 
             <div className="flex justify-between items-center ">
               <p className="text-xs italic">
@@ -64,9 +70,7 @@ const Card: React.FC<CardProps> = ({ task, index }) => {
               <div className="flex space-x-1 absolute bottom-1 right-5  w-fit sm:invisible group-hover:visible ">
                 <span
                   title="Delete"
-                  onClick={() =>
-                    deleteTask(task.task_id, collectionId as string)
-                  }
+                  onClick={() => deleteTask(task, collectionId as string)}
                   className="material-symbols-outlined text-base hover:bg-red-400 p-1 rounded-md hover:text-white"
                 >
                   delete
@@ -96,6 +100,7 @@ const Card: React.FC<CardProps> = ({ task, index }) => {
         type="Edit Task"
         title={task.title}
         description={task?.description}
+        priority={task?.priority}
         showPopup={showEditPopup}
         closePopup={() => setShowEditPopup(false)}
         onSave={onSave}

@@ -40,7 +40,7 @@ const useAxios = () => {
 
     let errorMessage;
 
-    if (error.response.data.message) {
+    if (error.response?.data?.message) {
       errorMessage = error.response.data.message;
     } else if (error.response?.data?.errors) {
       setErrorMsg(error.response.data.errors);

@@ -1,5 +1,6 @@
 export interface taskDetails {
   title: string;
+  priority: string;
   description: string;
 }
 
@@ -16,7 +17,7 @@ export interface taskAllInfo {
   status: string;
   user_id: string;
   due_date?: Date;
-  priority?: string;
+  priority: string;
   createdAt: Date;
   updatedAt: Date;
 }
