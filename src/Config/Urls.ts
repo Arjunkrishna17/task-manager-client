@@ -6,4 +6,4 @@ export const BASE_URL =
 export const HOME_PAGE =
   process.env.REACT_APP_ENV === "dev"
     ? "http://localhost:3000"
-    : "https://task-manager.krishnadas.site";
+    : "https://task-manager.krishnadas.online";
